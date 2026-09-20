@@ -6,7 +6,7 @@
 const TOOL_VERSIONS = {
   core: {
     label: 'Core',
-    version: '6.16.38',
+    version: '6.16.45',
     status: 'stable'
   },
   home: {
@@ -16,7 +16,7 @@ const TOOL_VERSIONS = {
   },
   bookmarklet: {
     label: 'Bookmarklet',
-    version: '1.3.1',
+    version: '1.3.7',
     status: 'stable'
   },
   'campaign-counter': {
@@ -47,7 +47,7 @@ const TOOL_VERSIONS = {
   },
   'layout-checker': {
     label: 'Layout Checker',
-    version: '2.5.3',
+    version: '2.5.4',
     status: 'stable'
   },
   'layout-slicer': {

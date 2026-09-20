@@ -698,6 +698,103 @@ main {
   height: 100%;
 }
 
+/* Typo Scanner is retired; keep its legacy bookmarklet code out of the UI. */
+#bookmarkletsGrid .bookmarklet-card:first-child {
+  display: none;
+}
+
+/* Bookmarklet now presents one focused helper, so search/view controls add noise. */
+.bookmarklet-filter,
+.no-results {
+  display: none;
+}
+
+.bookmarklets-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(780px, 100%);
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.bookmarklet-card[data-tool="Convert Local Email URL"] {
+  min-height: 0;
+}
+
+@media (max-width: 900px) {
+  .bookmarklets-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 620px) {
+  .bookmarklets-grid { grid-template-columns: 1fr; }
+}
+
+.bookmarklet-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+  color: var(--app-accent-dark, #9f3f45);
+  font-size: 11px;
+}
+
+.bookmarklet-flow code {
+  padding: 5px 7px;
+  background: var(--app-accent-soft, #fff1f1);
+  border: 1px solid #f4c7c9;
+  font: 11px Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
+.bookmarklet-card-notes {
+  display: grid;
+  gap: 5px;
+  margin: 0 0 14px;
+  padding-left: 18px;
+  color: var(--app-muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.bookmarklet-intro {
+  max-width: 720px;
+  margin: 0 auto 18px;
+  padding: 18px 20px;
+  background: #fff;
+  border: 1px solid var(--app-border);
+  border-left: 3px solid var(--app-accent);
+}
+
+.bookmarklet-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--app-accent-dark);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.bookmarklet-intro h2 {
+  margin: 0 0 6px;
+  color: var(--ui-text);
+  font-size: 18px;
+}
+
+.bookmarklet-intro p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.bookmarklet-purpose {
+  padding: 9px 10px;
+  color: var(--app-muted);
+  background: var(--app-soft);
+  border-left: 3px solid var(--app-accent);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
 .bookmarklet-card::before {
   display: none;
 }

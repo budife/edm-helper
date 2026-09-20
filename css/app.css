@@ -1490,7 +1490,8 @@ a {
 }
 
 .updates-selector {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 12px;
@@ -1504,11 +1505,12 @@ a {
   text-transform: uppercase;
 }
 
-.updates-selector select {
-  min-width: 190px;
+.updates-date-trigger {
+  width: 220px;
   min-height: 34px;
   padding: 6px 30px 6px 10px;
   color: var(--app-muted);
+  text-align: left;
   background: #fff;
   border: 1px solid var(--app-border);
   border-radius: 0;
@@ -1517,9 +1519,61 @@ a {
   cursor: pointer;
 }
 
-.updates-selector select:hover,
-.updates-selector select:focus-visible {
+.updates-date-control {
+  position: relative;
+  display: inline-block;
+  width: 220px;
+}
+
+.updates-date-list {
+  width: 100%;
+}
+
+.updates-date-trigger:hover,
+.updates-date-trigger:focus-visible {
+  border-color: var(--app-accent);
+  outline: none;
+}
+
+.updates-date-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 10;
+  display: grid;
+  width: 100%;
+  max-height: 220px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid var(--app-border);
+  box-shadow: 0 5px 14px rgb(0 0 0 / 12%);
+}
+
+.updates-date-list[hidden] {
+  display: none;
+}
+
+.updates-date-option {
+  width: 100%;
+  min-height: 34px;
+  padding: 7px 10px;
   color: var(--app-muted);
+  text-align: left;
+  background: #fff;
+  border: 0;
+  border-bottom: 1px solid var(--app-border);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.updates-date-option:last-child {
+  border-bottom: 0;
+}
+
+.updates-date-option:hover,
+.updates-date-option:focus-visible,
+.updates-date-option.active {
   background: #fff;
   border-color: var(--app-accent);
   outline: none;

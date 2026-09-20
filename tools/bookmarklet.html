@@ -15,7 +15,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="../css/tokens.css?v=6.16.27">
   <link rel="stylesheet" href="../css/theme.css?v=6.16.28">
-  <link rel="stylesheet" href="../css/pages-bookmarklet.css?v=6.16.27">
+  <link rel="stylesheet" href="../css/pages-bookmarklet.css?v=1.3.7">
   <link rel="stylesheet" href="../css/controls.css?v=6.16.39">
   
   <title>Bookmarklet - BETA</title>
@@ -56,18 +56,11 @@
           </div>
         </div>
         
-        <!-- Quick Guide -->
-        <div class="instructions">
-            <h3><i class="fa-solid fa-circle-info"></i> How to Use Bookmarklets:</h3>
-            <ol>
-                <li><strong>Drag</strong> a bookmarklet button below to your browser's <strong>bookmark bar</strong></li>
-                <li>Alternatively: <strong>Right-click</strong> → <strong>Add to Bookmarks</strong></li>
-                <li>Open the target page and <strong>click the bookmarklet</strong> to run it</li>
-            </ol>
-            <div class="browser-notes">
-                <p><strong>Note:</strong> Works on Chrome, Firefox, Edge, and Safari. Make sure the bookmark bar is visible (Ctrl+Shift+B).</p>
-            </div>
-        </div>
+        <section class="bookmarklet-intro" aria-labelledby="bookmarklet-intro-title">
+            <span class="bookmarklet-eyebrow">What is a bookmarklet?</span>
+            <h2 id="bookmarklet-intro-title">A small browser button for a repetitive action</h2>
+            <p>Drag a helper to your bookmark bar, open the page where you need it, and click the helper. It runs in your current browser tab; it does not install an extension or upload your email content.</p>
+        </section>
 
         <!-- Search/Filter Section -->
         <div class="bookmarklet-filter">
@@ -84,8 +77,8 @@
 
         <!-- Bookmarklets Grid -->
         <div class="bookmarklets-grid" id="bookmarkletsGrid">
-            <!-- Typo Scanner -->
-            <div class="bookmarklet-card">
+            <!-- Retired Typo Scanner markup remains disabled; the active helper below is the only visible card. -->
+            <div class="bookmarklet-card retired-bookmarklet" hidden>
                 <div class="bookmarklet-header">
                     <i class="fa-solid fa-spell-check"></i>
                     <h3>Typo Scanner</h3>
@@ -104,15 +97,23 @@
             <div class="bookmarklet-card">
                 <div class="bookmarklet-header">
                     <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                    <h3>Local to HSBC URL</h3>
+                    <h3>Convert Local Email URL</h3>
                 </div>
-                <p>Convert localhost URL to HSBC mail server</p>
+                 <p>Convert a local email preview URL into the matching HSBC mail-server URL and copy the result automatically.</p>
+                 <div class="bookmarklet-flow" aria-label="URL conversion flow">
+                   <code>127.0.0.1:5500</code><i class="fa-solid fa-arrow-right" aria-hidden="true"></i><code>mail.hsbc.com.hk/id</code>
+                 </div>
+                 <ul class="bookmarklet-card-notes">
+                   <li>Works only on pages served from <code>http://127.0.0.1:5500</code>.</li>
+                   <li>Only the URL text changes; the HTML and email content stay untouched.</li>
+                   <li>The converted URL is copied to your clipboard.</li>
+                 </ul>
                 <a href="javascript:(function(){function showToast(msg,type){const toast=document.createElement('div');toast.style.cssText='position:fixed;top:20px;right:20px;background:#333;color:white;padding:12px 20px;border-radius:4px;z-index:10000;animation:slideIn 0.3s ease';toast.textContent=msg;document.body.appendChild(toast);setTimeout(()=>toast.remove(),3000);}const currentUrl=window.location.href;if(currentUrl.includes('127.0.0.1:5500')){const newUrl=currentUrl.replace('http://127.0.0.1:5500','https://mail.hsbc.com.hk/id');if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(newUrl).then(()=>{showToast('\u2705 URL copied!','success');}).catch(()=>{fallbackCopy(newUrl);});}else{fallbackCopy(newUrl);}function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');showToast('\u2705 URL copied!','success');}catch(err){console.error('Gagal menyalin:',err);prompt('Copy manual URL:',text);}document.body.removeChild(ta);}}else{showToast('\u274c URL tidak mengandung 127.0.0.1:5500','error');}const style=document.createElement('style');style.textContent='@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}';document.head.appendChild(style);})();"; 
                    class="bookmarklet-btn" 
                    draggable="true"
-                   data-tool="Local to HSBC URL">
+                     data-tool="Convert Local Email URL" title="Open a page served at http://127.0.0.1:5500 first, then click to convert and copy its email URL.">
                     <i class="fa-solid fa-play"></i>
-                    <span class="btn-text">Local to HSBC URL</span>
+                      <span class="btn-text">Convert this email URL</span>
                 </a>
             </div>
         </div>
@@ -124,7 +125,18 @@
             <p style="font-size: var(--font-size-sm); margin-top: var(--space-2);">Try another search term</p>
         </div>
 
-        <!-- Keyboard Shortcuts -->
+         <!-- Quick Guide -->
+         <div class="instructions">
+             <h3><i class="fa-solid fa-circle-info"></i> How to Use This Helper</h3>
+             <ol>
+                 <li>Drag <strong>Convert this email URL</strong> to your browser bookmark bar.</li>
+                 <li>Open an email preview served from <code>http://127.0.0.1:5500</code>.</li>
+                 <li>Click the bookmarklet to convert and copy the HSBC URL.</li>
+             </ol>
+             <div class="browser-notes"><p><strong>Works in:</strong> Chrome, Edge, Firefox, and Safari. Show your bookmark bar with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>.</p></div>
+         </div>
+
+         <!-- Keyboard Shortcuts -->
         <div class="instructions">
             <h3><i class="fa-solid fa-keyboard"></i> Useful Keyboard Shortcuts:</h3>
             <div class="shortcuts-grid">
@@ -186,7 +198,7 @@
   <div id="settings-container"></div>
 
 <script src="../js/footer.js" defer></script>
-  <script src="../js/version-config.js?v=6.16.40" defer></script>
+   <script src="../js/version-config.js?v=6.16.45" defer></script>
 <!-- All functionality in one inline script -->
 <script>
 // Search functionality

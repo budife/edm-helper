@@ -2,6 +2,34 @@
 
 All notable user-facing changes to BETA are tracked here.
 
+## Core v6.16.45 - 18 September 2026
+
+- Matched the Recent Updates button and scrollable date list widths for a cleaner picker shape.
+
+## Core v6.16.41 - 18 September 2026
+
+- Limited the Recent Updates date picker area to a compact ten-item viewport with scrolling for older dates.
+
+## Core v6.16.42 - 18 September 2026
+
+- Replaced the native Recent Updates dropdown with a custom date list showing ten items at a time and scrolling for older updates.
+
+## Core v6.16.43 - 18 September 2026
+
+- Anchored the Recent Updates listbox directly below its date selector button.
+
+## Core v6.16.44 - 18 September 2026
+
+- Anchored the Recent Updates listbox directly to the `Choose update date` button wrapper.
+
+## Bookmarklet v1.3.3 - 18 September 2026
+
+- Retired Typo Scanner from the Bookmarklet UI and improved the Convert Local Email URL card with a visual flow and usage notes.
+- Simplified Bookmarklet into one focused helper card with clearer purpose and usage guidance.
+- Changed the Bookmarklet card grid to a compact three-column desktop layout for future helpers.
+- Constrained the Bookmarklet grid width so helper cards do not stretch across the full page.
+- Renamed the helper to `Convert Local Email URL` for clearer user-facing language.
+
 ## New Tools - 18 September 2026
 
 - Moved HTML email compatibility, size, viewport, and client-profile auditing into Layout Checker.

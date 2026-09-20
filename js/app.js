@@ -614,8 +614,9 @@ function enhanceHomeDashboard(container) {
 
        const selector = document.createElement('label');
        selector.className = 'updates-selector';
-       selector.innerHTML = '<span>Choose update date</span><select aria-label="Choose update date"></select>';
-       const select = selector.querySelector('select');
+       selector.innerHTML = '<span>Choose update date</span><div class="updates-date-control"><button class="updates-date-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">Choose date</button><div class="updates-date-list" role="listbox" hidden></div></div>';
+       const trigger = selector.querySelector('.updates-date-trigger');
+       const dateList = selector.querySelector('.updates-date-list');
        tabsWrapper.appendChild(selector);
 
       const tabContent = document.createElement('div');
@@ -626,10 +627,14 @@ function enhanceHomeDashboard(container) {
         const h3 = sub.querySelector('h3');
         const dateText = h3?.textContent || `Tab ${i + 1}`;
         const tabId = `update-tab-${i}`;
-         const option = document.createElement('option');
-         option.value = tabId;
-         option.textContent = dateText;
-         select.appendChild(option);
+          const option = document.createElement('button');
+          option.type = 'button';
+          option.className = `updates-date-option${i === 0 ? ' active' : ''}`;
+          option.dataset.tab = tabId;
+          option.setAttribute('role', 'option');
+          option.setAttribute('aria-selected', String(i === 0));
+          option.textContent = dateText;
+          dateList.appendChild(option);
 
         const panel = document.createElement('div');
         panel.className = `updates-tab-panel${i === 0 ? ' active' : ''}`;
@@ -644,10 +649,31 @@ function enhanceHomeDashboard(container) {
         tabContent.appendChild(panel);
       });
 
-       select.addEventListener('change', () => {
-         const tabId = select.value;
+       trigger.textContent = subsections[0].querySelector('h3')?.textContent || 'Choose date';
+       trigger.addEventListener('click', () => {
+         const open = !dateList.hidden;
+         dateList.hidden = open;
+         trigger.setAttribute('aria-expanded', String(!open));
+       });
+       dateList.addEventListener('click', (event) => {
+         const option = event.target.closest('.updates-date-option');
+         if (!option) return;
+         const tabId = option.dataset.tab;
          tabContent.querySelectorAll('.updates-tab-panel').forEach((p) => p.classList.remove('active'));
          tabContent.querySelector(`#${tabId}`)?.classList.add('active');
+         dateList.querySelectorAll('.updates-date-option').forEach((item) => {
+           item.classList.toggle('active', item === option);
+           item.setAttribute('aria-selected', String(item === option));
+         });
+         trigger.textContent = option.textContent;
+         dateList.hidden = true;
+         trigger.setAttribute('aria-expanded', 'false');
+       });
+       document.addEventListener('click', (event) => {
+         if (!selector.contains(event.target)) {
+           dateList.hidden = true;
+           trigger.setAttribute('aria-expanded', 'false');
+         }
        });
 
       subsections.forEach((sub) => sub.remove());

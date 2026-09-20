@@ -22,6 +22,14 @@ Use the sidebar to open a tool, or start with one of the quick access links belo
 ## Recent Updates
 
 ### 18 September 2026
+- **Core v6.16.41** - Limited the Recent Updates date picker area to a compact ten-item viewport with scrolling for older dates.
+- **Bookmarklet v1.3.3** - Retired Typo Scanner from the UI and improved the localhost URL converter card.
+- **Bookmarklet v1.3.4** - Simplified the page into one focused localhost URL helper.
+- **Bookmarklet v1.3.5** - Changed the helper card grid to a compact three-column desktop layout.
+- **Bookmarklet v1.3.6** - Constrained the helper grid width for a more compact card layout.
+- **Bookmarklet v1.3.7** - Renamed the helper to Convert Local Email URL for clearer language.
+
+### 18 September 2026
 - **Layout Checker** - Now includes compatibility, size, viewport, client-profile, image, and plain-URL audits.
 - **Layout Checker v2.2.1** - Compact the integrated compatibility and size audit panel.
 - **Layout Checker v2.2.2** - Put profile, viewport, and audit metrics into one compact row.
