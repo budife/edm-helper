@@ -74,7 +74,7 @@ Important deployment details:
 
 - `.nojekyll` is included for static hosting environments that support it.
 - `404.html` acts as the SPA fallback for clean-route refreshes.
-- Runtime code uses a base path helper for project-site paths.
+- Runtime code detects the deployed project base path from the loaded `js/app.js` URL, including GitHub Enterprise Pages paths.
 - Asset and content fetch paths must stay relative or base-path aware.
 
 ## Browser Support

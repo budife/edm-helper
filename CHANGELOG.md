@@ -6,6 +6,10 @@ All notable user-facing changes to BETA are tracked here.
 
 - Matched the Recent Updates button and scrollable date list widths for a cleaner picker shape.
 
+## Core v6.16.46 - 18 September 2026
+
+- Fixed project-site routing to auto-detect the deployment base path for GitHub Enterprise Pages and other repository subpaths.
+
 ## Core v6.16.41 - 18 September 2026
 
 - Limited the Recent Updates date picker area to a compact ten-item viewport with scrolling for older dates.

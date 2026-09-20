@@ -1,11 +1,11 @@
-const PROJECT_PATH = '/beta';
+const APP_SCRIPT_URL = document.currentScript?.src || new URL('js/app.js', window.location.href).href;
+const PROJECT_PATH = new URL('../', APP_SCRIPT_URL).pathname.replace(/\/$/, '');
 const isProjectPath = (
-  window.location.pathname === PROJECT_PATH
+  PROJECT_PATH && (window.location.pathname === PROJECT_PATH
   || window.location.pathname.startsWith(`${PROJECT_PATH}/`)
+  )
 );
-const BASE_PATH = window.location.hostname.includes('github.io') || isProjectPath
-  ? PROJECT_PATH
-  : '';
+const BASE_PATH = PROJECT_PATH;
 
 const ROUTES = {
   '/': {

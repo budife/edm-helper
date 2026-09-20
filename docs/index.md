@@ -495,7 +495,7 @@ Some tools can save to a local folder selected by the user. This requires browse
 
 :::details Refresh route shows missing styling or loading state
 
-Check GitHub Pages base path and cache-busters. The app should load assets relative to `/beta` on GitHub Pages and clean routes should fall back through `404.html`.
+Check the deployed project base path and cache-busters. The app derives its base path from the loaded `js/app.js` URL and clean routes should fall back through `404.html` on GitHub Pages or GitHub Enterprise Pages.
 :::
 
 :::details Layout URL cannot be fetched
