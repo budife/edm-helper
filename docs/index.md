@@ -126,6 +126,8 @@ The app uses clean SPA routes with a fixed sidebar. Opening a tool changes only 
 - Bookmarklet: `/bookmarklet`
 - Campaign Counter: `/campaign-counter`
 - Config eDM: `/config-edm`
+- Database Checker: `/database-checker`
+- Database Generator: `/database-generator`
 - Layout Checker: `/layout-checker`
 - Layout Slicer: `/layout-slicer`
 - TNC Uploader: `/tnc-uploader`
@@ -243,6 +245,7 @@ Enter or paste customer and KRHRED values, review the generated TXT/CSV/XML prev
 
 Customer inputs and generated files are processed locally in memory. Download and Save to Folder use browser Blob and File System Access APIs. No network request is required and source customer data is not uploaded.
 :::
+
 
 ## DOCX to HTML
 

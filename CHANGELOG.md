@@ -2,6 +2,52 @@
 
 All notable user-facing changes to BETA are tracked here.
 
+## New Tools - 18 September 2026
+
+- Moved HTML email compatibility, size, viewport, and client-profile auditing into Layout Checker.
+- Compact the integrated compatibility and size audit panel above the Layout Checker editor.
+- Put client profile, viewport, and audit metrics into one left-to-right compact row on desktop.
+- Moved compact audit metrics to the right of the client and viewport controls.
+- Put client profile and viewport controls inside the same horizontal metrics row.
+- Refined compatibility metrics into a compact dashboard-style row.
+- Fixed Layout Checker compatibility metrics not updating because parsed email HTML shadowed the host document reference.
+- Added hover/focus tooltips for compatibility warning and issue details.
+- Fixed audit detail hover visibility by using native browser tooltips and labeled the result area `Audit details`.
+- Fixed filtered Issue/Warning modal rendering so every item keeps its name, source line, snippet, and guidance.
+- Added an `i` info icon on Issue and Warning rows for clearer hover guidance.
+- Made Issue and Warning metric cards clickable with filtered audit-detail modal lists.
+- Centered the audit detail modal and removed the redundant inline Audit details list.
+- Visually merged the compatibility audit strip with the Layout Checker editor shell.
+- Simplified the editor shell to one HTML Content header with the audit controls beneath it.
+- Moved the editor toolbar inside the unified compatibility panel shell.
+- Kept the compatibility controls and metrics on one horizontal row at narrow widths with horizontal scrolling.
+- Removed the redundant `Source / HTML Content` label from the Layout Checker toolbar.
+- Moved editor actions into the right side of the compatibility metrics row.
+- Refined the metrics row with clearer control, stat, and action group separation.
+- Removed the unused `lc-compatibility-results` inline result container; details now live only in the Issue/Warning modal.
+- Made compatibility issue and warning messages specific with Problem, Impact, and Fix guidance.
+- Added source line numbers to compatibility audit details so each issue can be located in the loaded HTML.
+- Added auto-link simulation warnings for plain emails, phone numbers, dates, and addresses in layout text.
+- Made auto-link warnings show the exact source line and detected text.
+- Made every compatibility warning show the exact source HTML line and matched source snippet.
+- Reordered warning text so the exact source location appears first and is not hidden after a long message.
+- Structured audit modal entries with a clear check name, `Line X` location, matched snippet, and detailed guidance.
+- Clarified the Embedded CSS warning with a plain-language meaning, cause, impact, and fix.
+- Clarified compatibility audit modal labels with explicit `Line` and `Matched` fields.
+- Added realistic iPhone, Android, mobile, tablet, desktop, and full-width viewport presets.
+- Expanded the embedded `<style>` warning with its cause, affected behavior, and practical inline-CSS solution.
+- Fixed recurring `signal is aborted without reason` fetch failures by isolating the active request controller lifecycle.
+- Centered the selected viewport width inside the Layout Checker preview area.
+- Made the Compatibility Checker live: typing or pasting HTML immediately updates the audit, size metrics, and preview.
+- Changed the Compatibility Checker input to an HTML URL loader with direct browser fetch and clear CORS messaging.
+- Reused Layout Checker HTML fetcher options for Compatibility Checker URL loading.
+- Added a separate Outlook desktop client profile alongside Gmail, Apple Mail, and mobile profiles.
+- Separated client profile selection from viewport width selection in the Compatibility Checker UI.
+- Fixed preview resolution for images and styles that use relative URLs from the loaded email page.
+- Added plain URL detection to warn when Gmail, Outlook, or Apple Mail may auto-link layout text differently.
+- Compact the Compatibility & size audit card, improved the URL field, and added a dismissible BETA notice.
+- Styled the main HTML URL field as the primary control and kept Custom fetcher URL conditional on the Custom provider.
+
 ## Documentation - 17 September 2026
 
 - Added detailed per-tool processing flows, local storage paths, external request exceptions, reproducible DevTools audit steps, and source-level security proof.

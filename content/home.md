@@ -21,6 +21,42 @@ Use the sidebar to open a tool, or start with one of the quick access links belo
 
 ## Recent Updates
 
+### 18 September 2026
+- **Layout Checker** - Now includes compatibility, size, viewport, client-profile, image, and plain-URL audits.
+- **Layout Checker v2.2.1** - Compact the integrated compatibility and size audit panel.
+- **Layout Checker v2.2.2** - Put profile, viewport, and audit metrics into one compact row.
+- **Layout Checker v2.2.3** - Moved compact audit metrics beside the client and viewport controls.
+- **Layout Checker v2.2.4** - Put client profile and viewport controls inside the metrics row.
+- **Layout Checker v2.2.5** - Refined compatibility metrics into a compact dashboard-style row.
+- **Layout Checker v2.2.6** - Fixed compatibility metric values not rendering after an audit.
+- **Layout Checker v2.2.7** - Added hover/focus tooltips for compatibility warning and issue details.
+- **Layout Checker v2.2.8** - Fixed issue/warning detail hover visibility and clarified the audit details area.
+- **Layout Checker v2.2.9** - Added info icons for Issue and Warning detail tooltips.
+- **Layout Checker v2.3.0** - Made Issue and Warning metrics open filtered audit-detail modals.
+- **Layout Checker v2.3.1** - Centered the audit modal and removed the redundant inline details list.
+- **Layout Checker v2.3.2** - Visually merged the compatibility audit strip with the editor shell.
+- **Layout Checker v2.3.3** - Simplified the editor shell to one HTML Content header.
+- **Layout Checker v2.3.4** - Moved the editor toolbar inside the unified compatibility panel shell.
+- **Layout Checker v2.3.5** - Kept compatibility controls and metrics on one horizontal row at narrow widths.
+- **Layout Checker v2.3.6** - Removed the redundant Source / HTML Content toolbar label.
+- **Layout Checker v2.3.7** - Moved editor actions into the right side of the compatibility metrics row.
+- **Layout Checker v2.3.8** - Refined the compatibility row group styling.
+- **Layout Checker v2.3.9** - Removed the unused inline compatibility results container.
+- **Layout Checker v2.4.0** - Made compatibility warnings specific with Problem, Impact, and Fix guidance.
+- **Layout Checker v2.4.1** - Expanded the embedded style warning with cause, impact, and inline-CSS guidance.
+- **Layout Checker v2.4.2** - Fixed recurring aborted-signal errors during HTML fetching.
+- **Layout Checker v2.4.4** - Added source line numbers to compatibility audit details.
+- **Layout Checker v2.4.6** - Added auto-link simulation warnings for emails, phones, dates, and addresses.
+- **Layout Checker v2.4.7** - Added exact source line and detected text to auto-link warnings.
+- **Layout Checker v2.4.8** - Added exact source line and matched snippet to every compatibility warning.
+- **Layout Checker v2.4.9** - Put source location first in compatibility warning details.
+- **Layout Checker v2.5.0** - Structured audit details with check name, source line, and matched snippet.
+- **Layout Checker v2.5.1** - Clarified audit modal fields with explicit Line and Matched labels.
+- **Layout Checker v2.5.2** - Clarified the Embedded CSS warning in plain language.
+- **Layout Checker v2.5.3** - Fixed filtered audit modal details for every Issue and Warning item.
+- **Layout Checker v2.4.5** - Added realistic device-width and full-width preview presets.
+- **Layout Checker v2.4.3** - Centered the selected viewport inside the preview area.
+
 ### 17 September 2026
 - **Documentation** - Added detailed processing flows for all tools, storage and network boundaries, reproducible audit steps, and source-level security proof.
 - **Documentation UI** - Improved table rendering, collapsible tool panels, and responsive readability.
@@ -158,6 +194,6 @@ Use the sidebar to open a tool, or start with one of the quick access links belo
 
 ## System Info
 
-- **Available tools:** `11`
+ - **Available tools:** `11`
 - **Deployment:** Private GitHub Pages and local server
 - **Status:** All tools available

@@ -15,7 +15,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="../css/tokens.css?v=6.16.27">
   <link rel="stylesheet" href="../css/theme.css?v=6.16.28">
-  <link rel="stylesheet" href="../css/pages-layout-checker.css?v=6.16.19">
+  <link rel="stylesheet" href="../css/pages-layout-checker.css?v=2.4.5">
   <link rel="stylesheet" href="../css/controls.css?v=6.16.39">
   
   <title>Layout Checker - BETA</title>
@@ -142,29 +142,42 @@
       </aside>
 
       <section class="lc-editor-panel">
-        <div class="lc-editor-toolbar">
-          <div>
-            <span class="lc-eyebrow">Source</span>
-            <strong>HTML Content</strong>
+        <section class="lc-compatibility-panel lc-panel" aria-label="Email compatibility audit">
+          <div class="lc-compatibility-metrics">
+            <div class="lc-compatibility-options">
+              <label>Client profile
+                <select id="lc-client-profile" class="lc-input">
+                  <option value="outlook">Outlook desktop · Word simulation</option>
+                  <option value="gmail">Gmail desktop/mobile</option>
+                  <option value="apple">Apple Mail desktop/mobile</option>
+                  <option value="mobile">Generic mobile client</option>
+                </select>
+              </label>
+              <label>Viewport
+                <select id="lc-preview-width" class="lc-input">
+                  <option value="full">Full available width</option>
+                  <option value="600">Email desktop · 600px</option>
+                  <option value="390">iPhone · 390px</option>
+                  <option value="375">Mobile · 375px</option>
+                  <option value="360">Android · 360px</option>
+                  <option value="320">Small mobile · 320px</option>
+                  <option value="768">Tablet · 768px</option>
+                </select>
+              </label>
+            </div>
+            <button class="lc-compat-metric-button" id="lc-compat-issues-button" type="button" aria-label="Show compatibility issues"><strong id="lc-compat-issues">0</strong> issues</button>
+            <button class="lc-compat-metric-button" id="lc-compat-warnings-button" type="button" aria-label="Show compatibility warnings"><strong id="lc-compat-warnings">0</strong> warnings</button>
+            <span><strong id="lc-compat-size">0 KB</strong> HTML</span>
+            <span><strong id="lc-compat-inline">0 KB</strong> inline CSS</span>
+            <span><strong id="lc-compat-assets">0</strong> assets</span>
+            <div class="lc-editor-actions lc-editor-actions--compact">
+              <button id="downloadScreenshotBtn" class="lc-btn lc-btn-secondary lc-btn-sm" type="button" disabled><i class="fa-solid fa-download"></i> Screenshot</button>
+              <button id="typoCheckerBtn" class="lc-btn lc-btn-secondary lc-btn-sm" type="button" title="Checks HTML text only; text inside images is not scanned." disabled><i class="fa-solid fa-spell-check"></i> Typo</button>
+              <button id="openPreviewBtn" class="lc-btn lc-btn-secondary lc-btn-sm" type="button" disabled><i class="fa-solid fa-up-right-from-square"></i> Preview</button>
+              <label class="lc-toggle" for="highlightKrhredToggle"><input id="highlightKrhredToggle" type="checkbox"><i class="fa-solid fa-highlighter" aria-hidden="true"></i><span>Highlight</span></label>
+            </div>
           </div>
-
-          <div class="lc-editor-actions">
-            <button id="downloadScreenshotBtn" class="lc-btn lc-btn-secondary lc-btn-sm" type="button" disabled>
-              <i class="fa-solid fa-download"></i> Screenshot
-            </button>
-            <button id="typoCheckerBtn" class="lc-btn lc-btn-secondary lc-btn-sm" type="button" title="Checks HTML text only; text inside images is not scanned." disabled>
-              <i class="fa-solid fa-spell-check"></i> Typo Checker <small>(HTML text only)</small>
-            </button>
-            <button id="openPreviewBtn" class="lc-btn lc-btn-secondary lc-btn-sm" type="button" disabled>
-              <i class="fa-solid fa-up-right-from-square"></i> Open preview
-            </button>
-<label class="lc-toggle" for="highlightKrhredToggle">
-              <input id="highlightKrhredToggle" type="checkbox">
-              <i class="fa-solid fa-highlighter" aria-hidden="true"></i>
-              <span>Highlight KRHRED</span>
-            </label>
-          </div>
-        </div>
+        </section>
         <textarea id="htmlInput" class="lc-textarea lc-textarea-sm" style="display:none;"></textarea>
         <div id="previewPanel" class="lc-preview-panel lc-view-panel">
           <div id="previewPlaceholder" class="lc-preview-placeholder">
@@ -191,8 +204,15 @@
         </div>
       </section>
     </div>
-  </div>
-</main>
+    </div>
+  </main>
+
+  <dialog class="lc-compat-modal" id="lc-compat-modal" aria-labelledby="lc-compat-modal-title">
+    <div class="lc-compat-modal-card">
+      <div class="lc-compat-modal-header"><h2 id="lc-compat-modal-title">Compatibility Problem Details</h2><button class="lc-btn lc-btn-secondary lc-btn-sm" id="lc-compat-modal-close" type="button">Close</button></div>
+      <ul class="lc-compat-modal-list" id="lc-compat-modal-list"></ul>
+    </div>
+  </dialog>
 
   <dialog id="typoCheckerModal" class="lc-typo-modal">
     <div class="lc-typo-modal-card">
@@ -223,8 +243,8 @@
 <script src="../js/footer.js" defer></script>
 <script src="../js/typo-dictionary.js?v=6.16.19" defer></script>
 <script src="../js/typo-engine.js?v=6.16.19" defer></script>
-<script src="../js/version-config.js?v=6.16.39" defer></script>
+<script src="../js/version-config.js?v=6.16.40" defer></script>
 <script src="../js/privacy-settings.js?v=6.16.19" defer></script>
-<script src="../js/pages-layout-checker.js?v=6.16.20" defer></script>
+<script src="../js/pages-layout-checker.js?v=2.5.3" defer></script>
 </body>
 </html>

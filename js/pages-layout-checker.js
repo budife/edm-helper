@@ -84,6 +84,117 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
   let html2canvasLoadPromise = null;
   const screenshotImageCache = new Map();
 
+  const compatibilityChecks = [
+    { name: 'Embedded CSS (<style> block)', pattern: /<style[\s>]/i, test: html => /<style[\s>]/i.test(html), level: 'warning', text: 'Meaning: the email keeps CSS rules inside a <style> block instead of directly on the HTML elements. Cause: some Outlook versions and email sanitizers remove, limit, or partially support CSS in the email head. Impact: widths, spacing, fonts, colors, or responsive rules may fall back or disappear. Fix: put critical styles inline on each table, cell, text, and CTA; keep only safe responsive overrides in <style>.' },
+    { name: 'Positioned layout', pattern: /position\s*:\s*(fixed|absolute)/i, test: html => /position\s*:\s*(fixed|absolute)/i.test(html), level: 'error', text: 'Fixed/absolute positioning detected. Impact: Outlook Word rendering and narrow clients may misplace content. Fix: use table flow, padding, and margins.' },
+    { name: 'Flexbox/Grid', pattern: /display\s*:\s*flex|display\s*:\s*grid/i, test: html => /display\s*:\s*flex|display\s*:\s*grid/i.test(html), level: 'warning', text: 'Flexbox/Grid detected. Impact: support is inconsistent, especially in Outlook desktop. Fix: use tables for critical email structure.' },
+    { name: 'Image alt text', pattern: /<img(?![^>]+\balt=)/i, test: html => /<img(?![^>]+\balt=)/i.test(html), level: 'warning', text: 'Image without alt text detected. Impact: blocked images leave empty or inaccessible content. Fix: add meaningful alt text to every content image.' },
+    { name: 'Anchor href', pattern: /<a(?![^>]+\bhref=)/i, test: html => /<a(?![^>]+\bhref=)/i.test(html), level: 'warning', text: 'Anchor without href detected. Impact: the CTA may look clickable but cannot navigate. Fix: add an explicit href.' },
+    { name: 'Responsive CSS', pattern: /@media/i, test: html => /@media/i.test(html), level: 'good', text: 'Responsive media queries detected. Check the mobile preview and keep a usable desktop fallback.' },
+    { name: 'Table structure', pattern: /<table/i, test: html => /<table/i.test(html), level: 'good', text: 'Table-based structure detected, generally safer for Outlook desktop.' }
+  ];
+  let latestCompatibilityResults = [];
+
+  function formatAuditBytes(bytes) {
+    return bytes < 1024 ? `${bytes} B` : `${(bytes / 1024).toFixed(1)} KB`;
+  }
+
+  function runCompatibilityAudit(html) {
+    const results = compatibilityChecks.filter(check => check.test(html)).map(check => ({
+      ...check,
+      line: getSourceLine(html, check.pattern),
+      snippet: getMatchedSource(html, check.pattern)
+    }));
+    const styleCount = (html.match(/<style[\s>]/gi) || []).length;
+    const embeddedCss = results.find(result => result.name === 'Embedded CSS');
+    if (embeddedCss && styleCount > 1) embeddedCss.text = `Problem: ${styleCount} embedded <style> blocks detected. ${embeddedCss.text.replace('Embedded <style> block detected. ', '')}`;
+    const parser = new DOMParser();
+    const parsedDocument = parser.parseFromString(html, 'text/html');
+    const walker = parsedDocument.createTreeWalker(parsedDocument.body, NodeFilter.SHOW_TEXT);
+    const urlPattern = /(?:https?:\/\/|www\.)[^\s<>'"`]+/gi;
+    let node;
+    while ((node = walker.nextNode())) {
+      if (node.parentElement?.closest('a, style, script, title')) continue;
+      const match = node.nodeValue.match(urlPattern);
+      if (match) results.push({ level: 'warning', name: 'Plain URL', line: getSourceLine(html, new RegExp(match[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i')), snippet: match[0], text: `Problem: plain URL text detected. Impact: Gmail, Outlook, and Apple Mail may auto-link it differently. Fix: wrap it in an explicit <a href="..."> link.` });
+    }
+    results.push(...findAutoLinkRisks(parsedDocument, html));
+    const bytes = new TextEncoder().encode(html).length;
+    const inline = (html.match(/style\s*=\s*["'][^"']*["']/gi) || []).join('').length;
+    const assets = html.match(/(?:src|href)\s*=\s*["'](https?:|cid:|data:)[^"']*["']/gi) || [];
+    const sizeResult = bytes >= 102 * 1024
+      ? { level: 'error', name: 'Gmail clipping', text: `Problem: HTML source is ${formatAuditBytes(bytes)}. Impact: Gmail may clip the message around the practical 102KB threshold. Fix: remove repeated markup and reduce inline CSS/content.` }
+      : bytes >= 80 * 1024
+        ? { level: 'warning', name: 'Gmail clipping', text: `Warning: HTML source is ${formatAuditBytes(bytes)}. Impact: it is approaching Gmail's practical 102KB clipping threshold. Fix: reduce markup and inline CSS before delivery.` }
+        : { level: 'good', name: 'Gmail clipping', text: `Pass: HTML source is ${formatAuditBytes(bytes)}, below Gmail's practical 102KB clipping threshold.` };
+    results.unshift(sizeResult);
+    latestCompatibilityResults = results;
+    const issueEl = globalThis.document.getElementById('lc-compat-issues');
+    const warningEl = globalThis.document.getElementById('lc-compat-warnings');
+    const sizeEl = globalThis.document.getElementById('lc-compat-size');
+    const inlineEl = globalThis.document.getElementById('lc-compat-inline');
+    const assetEl = globalThis.document.getElementById('lc-compat-assets');
+    issueEl.textContent = results.filter(result => result.level === 'error').length;
+    warningEl.textContent = results.filter(result => result.level === 'warning').length;
+    sizeEl.textContent = formatAuditBytes(bytes);
+    inlineEl.textContent = formatAuditBytes(inline);
+    assetEl.textContent = assets.length;
+    updateCompatibilityModal();
+  }
+
+  function findAutoLinkRisks(parsedDocument, html) {
+    const patterns = [
+      { type: 'email', regex: /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, suggestion: 'Use <a href="mailto:address@example.com">...</a>.' },
+      { type: 'phone', regex: /(?:\+?\d[\d ()-]{7,}\d)/g, suggestion: 'Use <a href="tel:+6281234567890">...</a>.' },
+      { type: 'date', regex: /\b(?:\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4})\b/gi, suggestion: 'Keep important dates explicit in accessible text and verify client auto-link behavior.' },
+      { type: 'address', regex: /\b(?:Jl\.?|Jalan|Street|St\.?|Road|Rd\.)\s+[^\n,]{3,}(?:,\s*[^\n]+)?/gi, suggestion: 'Keep the address in accessible text and wrap it in an explicit map/location link if it should be clickable.' }
+    ];
+    const risks = [];
+    const walker = parsedDocument.createTreeWalker(parsedDocument.body, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      if (node.parentElement?.closest('a, style, script, title')) continue;
+      for (const pattern of patterns) {
+        const match = node.nodeValue.match(pattern.regex);
+        if (!match) continue;
+        const line = getSourceLine(html, new RegExp(match[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
+        risks.push({ level: 'warning', name: `Auto-link: ${pattern.type}`, line, snippet: match[0], text: `Impact: Apple Mail, Gmail, or Outlook may detect and style it differently. Fix: ${pattern.suggestion}` });
+      }
+    }
+    return risks;
+  }
+
+  function getSourceLine(html, pattern) {
+    const match = String(html).match(pattern);
+    if (!match || match.index == null) return 'unknown';
+    return String(html.slice(0, match.index).split('\n').length);
+  }
+
+  function getMatchedSource(html, pattern) {
+    const match = String(html).match(pattern);
+    if (!match) return 'matching source';
+    return match[0].replace(/\s+/g, ' ').slice(0, 100);
+  }
+
+  function updateCompatibilityModal() {
+    const modalList = document.getElementById('lc-compat-modal-list');
+    if (!modalList) return;
+    modalList.innerHTML = latestCompatibilityResults.map((result, index) => renderCompatibilityResult(result, index)).join('');
+  }
+
+  function renderCompatibilityResult(result, index = 0) {
+    return `
+      <li class="is-${result.level}">
+        <strong>${index + 1}. ${escapeAuditText(result.name || 'Compatibility check')}</strong>
+        ${result.line ? `<code>Line ${result.line}</code><code>Matched: ${escapeAuditText(result.snippet)}</code>` : ''}
+        <span>${escapeAuditText(result.text)}</span>
+      </li>`;
+  }
+
+  function escapeAuditText(value) {
+    return String(value || '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+  }
+
   function setLayoutStatus(state, text) {
     if (!layoutStatus) return;
     layoutStatus.dataset.state = state;
@@ -125,12 +236,37 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
     latestPreviewHtml = html || '';
     latestPreviewSourceUrl = sourceUrl || '';
     layoutPreviewFrame.srcdoc = preparePreviewHtml(latestPreviewHtml, latestPreviewSourceUrl);
+    const widthValue = document.getElementById('lc-preview-width')?.value || 'full';
+    layoutPreviewFrame.style.width = widthValue === 'full' ? '100%' : `${Math.min(Number(widthValue), 768)}px`;
     if (previewPlaceholder) {
       previewPlaceholder.style.display = html ? 'none' : 'flex';
     }
     updatePreviewActions();
+    if (html) runCompatibilityAudit(html);
     setLayoutStatus(html ? 'ready' : 'empty', html ? statusText : 'No layout loaded');
   }
+
+  document.getElementById('lc-client-profile')?.addEventListener('change', () => {
+    if (latestPreviewHtml) renderPreview(latestPreviewHtml, 'Preview ready', latestPreviewSourceUrl);
+  });
+  document.getElementById('lc-preview-width')?.addEventListener('change', () => {
+    const value = document.getElementById('lc-preview-width').value;
+    if (!layoutPreviewFrame) return;
+    layoutPreviewFrame.style.width = value === 'full' ? '100%' : `${Math.min(Number(value), 768)}px`;
+  });
+  const compatibilityModal = document.getElementById('lc-compat-modal');
+  const compatibilityModalList = document.getElementById('lc-compat-modal-list');
+  const openCompatibilityModal = (level) => {
+    if (!compatibilityModal || !compatibilityModalList) return;
+    const filtered = latestCompatibilityResults.filter(result => level === 'all' || result.level === level);
+    compatibilityModalList.innerHTML = filtered.length
+      ? filtered.map((result, index) => renderCompatibilityResult(result, index)).join('')
+      : '<li class="is-good">No matching audit details.</li>';
+    compatibilityModal.showModal();
+  };
+  document.getElementById('lc-compat-issues-button')?.addEventListener('click', () => openCompatibilityModal('error'));
+  document.getElementById('lc-compat-warnings-button')?.addEventListener('click', () => openCompatibilityModal('warning'));
+  document.getElementById('lc-compat-modal-close')?.addEventListener('click', () => compatibilityModal?.close());
 
   function updatePreviewActions() {
     const hasPreview = Boolean(latestPreviewHtml && latestPreviewHtml.trim());
@@ -1011,6 +1147,8 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
 
       // Show loading overlay in preview panel
       showLoadingOverlay(fetcherName);
+      abortController?.abort();
+      abortController = new AbortController();
 
       // Disable URL input and change reset to stop
       originalUrlInput.disabled = true;
@@ -1029,7 +1167,11 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
 
     } catch (error) {
       console.error('Error fetching HTML:', error);
-      showErrorOverlay('Failed to fetch', error.message || 'Please try again');
+      if (error.name === 'AbortError' || error.message === 'signal is aborted without reason') {
+        showErrorOverlay('Fetch cancelled', 'The request was stopped. Press Load URL to try again.');
+      } else {
+        showErrorOverlay('Failed to fetch', error.message || 'Please try again');
+      }
     } finally {
       downloadBtn.disabled = false;
       downloadBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-down"></i> Load URL';
@@ -1037,6 +1179,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
       resetUrlBtn.innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
       resetUrlBtn.title = 'Reset URL';
       hideLoadingOverlay();
+      abortController = null;
     }
   });
 
@@ -1062,12 +1205,13 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
     const isGoogleScript = providerKey === 'google-apps-script';
     const maxRetries = isGoogleScript ? 2 : 0;
     let lastError;
+    const activeSignal = abortController?.signal;
 
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000);
       const abortFromGlobal = () => controller.abort();
-      abortController?.signal?.addEventListener('abort', abortFromGlobal, { once: true });
+      activeSignal?.addEventListener('abort', abortFromGlobal, { once: true });
 
       try {
         if (attempt > 0) {
@@ -1093,7 +1237,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
         if (attempt < maxRetries) continue;
       } finally {
         clearTimeout(timeoutId);
-        abortController?.signal?.removeEventListener('abort', abortFromGlobal);
+        activeSignal?.removeEventListener('abort', abortFromGlobal);
       }
     }
     throw lastError;
