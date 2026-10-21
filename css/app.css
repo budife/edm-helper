@@ -489,7 +489,9 @@ a {
   font-weight: 600;
   letter-spacing: .02em;
   line-height: 1;
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .tool-privacy-badge.is-local {
