@@ -4,7 +4,7 @@
 
 // Simple initialization without animations
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Bookmarklet page loaded - Performance mode');
+    ('Bookmarklet page loaded - Performance mode', void 0);
     
     // Initialize search functionality
     const searchInput = document.getElementById('bookmarkletSearch');

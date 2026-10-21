@@ -714,8 +714,8 @@
     setActiveAccordion('slicer');
     setStatus('Rendering the first PDF page for slicing...', '');
     try {
-      const pdfjs = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs');
-      pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+      const pdfjs = await import('../vendor/pdf.js/4.10.38/pdf.min.mjs');
+      pdfjs.GlobalWorkerOptions.workerSrc = '../vendor/pdf.js/4.10.38/pdf.worker.min.mjs';
       const pdf = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
       const page = await pdf.getPage(1);
       const viewport = page.getViewport({ scale: 2 });

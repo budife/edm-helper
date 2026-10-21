@@ -2,6 +2,12 @@
 
 All notable user-facing changes to BETA are tracked here.
 
+## Core v6.16.47 - 21 October 2026
+
+- Mirrored all third-party assets (CodeMirror, Font Awesome, html2canvas, JSZip, Mammoth, pdf.js) into a local `vendor/` folder and removed the cdnjs CDN dependencies, so the tools no longer make external asset requests.
+- Removed leftover debug `console.log` statements across the tool scripts for cleaner console output and to avoid logging sensitive campaign data.
+- Added a Node test CI workflow (`.github/workflows/test.yml`) and `package.json` with `npm test` so the suite and JS syntax checks run on every push and PR.
+
 ## Core v6.16.45 - 18 September 2026
 
 - Matched the Recent Updates button and scrollable date list widths for a cleaner picker shape.

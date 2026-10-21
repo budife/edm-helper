@@ -16,7 +16,7 @@ function getXmlSubject() {
 }
 
 function setTooltipsEnabled(enabled) {
-  console.log('\ud83d\udd27 TOOLTIPS ENABLED:', enabled);
+  ('\ud83d\udd27 TOOLTIPS ENABLED:', enabled, void 0);
   document.body.classList.toggle('tooltips-disabled', !enabled);
 }
 
@@ -1020,10 +1020,10 @@ function clearAllUI(opts = { clearStorage: false }) {
 
 // Apply form field changes to XML before saving
 async function applyFormChangesToXML() {
-  console.log('=== applyFormChangesToXML START ===');
+  ('=== applyFormChangesToXML START ===', void 0);
   
   if (!xmlDoc) {
-    console.log('No xmlDoc, returning');
+    ('No xmlDoc, returning', void 0);
     return;
   }
   
@@ -1035,23 +1035,23 @@ async function applyFormChangesToXML() {
   const currentSubject = xmlDoc.querySelector('MessageContent')?.getAttribute('subject') || '';
   const currentLink = xmlDoc.querySelector('MessageBody')?.getAttribute('content') || '';
   
-  console.log('Current XML values:', { currentCampaignId, currentSubject, currentLink });
+  ('Current XML values:', { currentCampaignId, currentSubject, currentLink }, void 0);
   
   // Get input values
   const campaignIdValue = elements.campaignIdInput ? elements.campaignIdInput.value.trim() : '';
   const subjectValue = elements.subjectInput ? elements.subjectInput.value.trim() : '';
   const linkValue = elements.linkInput ? elements.linkInput.value.trim() : '';
   
-  console.log('Input values:', { campaignIdValue, subjectValue, linkValue });
+  ('Input values:', { campaignIdValue, subjectValue, linkValue }, void 0);
   
   // Check if Campaign ID has changes
   if (campaignIdValue && campaignIdValue !== currentCampaignId) {
-    console.log('Campaign ID has changes, validating...');
+    ('Campaign ID has changes, validating...', void 0);
     hasChanges = true;
     const hasSpace = /\s/.test(campaignIdValue);
     const formatValidation = validateCampaignIdFormat(campaignIdValue);
     
-    console.log('Campaign ID validation:', { hasSpace, formatValidation });
+    ('Campaign ID validation:', { hasSpace, formatValidation }, void 0);
     
     if (!hasSpace && formatValidation.valid) {
       // Update AudienceModel
@@ -1091,20 +1091,20 @@ async function applyFormChangesToXML() {
       
       currentCampaignId = campaignIdValue;
       updateCount++;
-      console.log('Campaign ID updated successfully');
+      ('Campaign ID updated successfully', void 0);
     } else {
-      console.log('Campaign ID validation failed, not updating');
+      ('Campaign ID validation failed, not updating', void 0);
     }
   }
   
   // Check if Subject has changes
   if (subjectValue && subjectValue !== currentSubject) {
-    console.log('Subject has changes, processing...');
+    ('Subject has changes, processing...', void 0);
     hasChanges = true;
     const result = normalizeKrhredTokens(subjectValue);
     const normalized = (result.text || '').trim();
     
-    console.log('Subject normalization result:', result);
+    ('Subject normalization result:', result, void 0);
     
     if (!result.missingDetected && normalized !== '') {
       const messageContent = xmlDoc.querySelector('MessageContent');
@@ -1112,21 +1112,21 @@ async function applyFormChangesToXML() {
         messageContent.setAttribute('subject', normalized);
         if (elements.subjectInput) elements.subjectInput.value = normalized;
         updateCount++;
-        console.log('Subject updated successfully');
+        ('Subject updated successfully', void 0);
       }
     } else {
-      console.log('Subject validation failed, not updating');
+      ('Subject validation failed, not updating', void 0);
     }
   }
   
   // Check if Link has changes
   if (linkValue && linkValue !== currentLink) {
-    console.log('Link has changes, validating...');
+    ('Link has changes, validating...', void 0);
     hasChanges = true;
     
     // Validate link format
     const linkValidation = validateLinkFormat(linkValue);
-    console.log('Link validation:', linkValidation);
+    ('Link validation:', linkValidation, void 0);
     
     if (linkValidation.valid) {
       const urlPattern = /^(http:\/\/|https:\/\/).+/i;
@@ -1139,11 +1139,11 @@ async function applyFormChangesToXML() {
           messageBody.setAttribute('content', finalLink);
           if (elements.linkInput) elements.linkInput.value = finalLink;
           updateCount++;
-          console.log('Link updated successfully');
+          ('Link updated successfully', void 0);
         }
       }
     } else {
-      console.log('Link validation failed, not updating');
+      ('Link validation failed, not updating', void 0);
     }
   }
   
@@ -1170,22 +1170,22 @@ async function applyFormChangesToXML() {
     }
   }
   
-  console.log('Update summary:', { hasChanges, updateCount });
+  ('Update summary:', { hasChanges, updateCount }, void 0);
   
   // Update editor if there were changes
   if (hasChanges && updateCount > 0) {
-    console.log('Updating editor with changes...');
+    ('Updating editor with changes...', void 0);
     updateEditor();
     saveState();
     updateAllCharCounts();
     // Mark as having unsaved changes after applying changes
     hasUnsavedChanges = true;
-    console.log('Editor updated successfully');
+    ('Editor updated successfully', void 0);
   } else {
-    console.log('No changes to apply');
+    ('No changes to apply', void 0);
   }
   
-  console.log('=== applyFormChangesToXML END ===');
+  ('=== applyFormChangesToXML END ===', void 0);
 }
 
 /* Save / Load XML - Show modal first before saving */
@@ -1196,54 +1196,54 @@ async function performSave() {
   const currentFileHandle = window.fileHandle || fileHandle;
   
   if (!currentFileHandle) {
-    console.log("No file opened");
+    ("No file opened", void 0);
     setFileStatus('empty', 'No file selected');
     return;
   }
   
   if (!elements.editor || !elements.editor.getValue) {
-    console.log("Editor not available");
+    ("Editor not available", void 0);
     return;
   }
   
   if (!elements.editor.getValue().trim()) {
-    console.log("Editor is empty, cannot save");
+    ("Editor is empty, cannot save", void 0);
     return;
   }
 
   try {
-    console.log('=== performSave START ===');
-    console.log('File handle:', currentFileHandle);
-    console.log('Editor available:', !!elements.editor);
-    console.log('Editor content length:', elements.editor.getValue().length);
+    ('=== performSave START ===', void 0);
+    ('File handle:', currentFileHandle, void 0);
+    ('Editor available:', !!elements.editor, void 0);
+    ('Editor content length:', elements.editor.getValue().length, void 0);
     
     // First apply any pending form field changes to XML
-    console.log('Calling applyFormChangesToXML...');
+    ('Calling applyFormChangesToXML...', void 0);
     await applyFormChangesToXML();
-    console.log('applyFormChangesToXML completed');
+    ('applyFormChangesToXML completed', void 0);
     
-    console.log('Parsing XML...');
+    ('Parsing XML...', void 0);
     const parser = new DOMParser();
     const parsedDoc = parser.parseFromString(elements.editor.getValue(), "application/xml");
     const hasError = parsedDoc.getElementsByTagName('parsererror').length > 0;
     
-    console.log('XML parsing result:', { hasError, parserErrorCount: parsedDoc.getElementsByTagName('parsererror').length });
+    ('XML parsing result:', { hasError, parserErrorCount: parsedDoc.getElementsByTagName('parsererror').length }, void 0);
     
     if (hasError) {
       throw new Error('Invalid XML format');
     }
 
     xmlDoc = parsedDoc;
-    console.log('XML document updated');
+    ('XML document updated', void 0);
 
-    console.log('Creating writable file...');
+    ('Creating writable file...', void 0);
     // Performance: Write file with timeout
     const writable = await currentFileHandle.createWritable();
     await writable.write(elements.editor.getValue());
     await writable.close();
-    console.log('File written successfully');
+    ('File written successfully', void 0);
 
-    console.log('File saved successfully');
+    ('File saved successfully', void 0);
 
     // Update original values after saving
     storeOriginalValues();
@@ -1282,17 +1282,17 @@ function initializeTooltipCache() {
   const validationTooltips = document.querySelectorAll('.validation-tooltip');
   const mismatchTooltips = document.querySelectorAll('.mismatch-tooltip');
   
-  console.log('=== TOOLTIP DUPLICATE CHECK ===');
-  console.log('Warning tooltips found:', warningTooltips.length);
-  warningTooltips.forEach((t, i) => console.log(`  Warning ${i}:`, t.id, t.textContent));
-  console.log('Validation tooltips found:', validationTooltips.length);
-  validationTooltips.forEach((t, i) => console.log(`  Validation ${i}:`, t.id, t.textContent));
+  ('=== TOOLTIP DUPLICATE CHECK ===', void 0);
+  ('Warning tooltips found:', warningTooltips.length, void 0);
+  warningTooltips.forEach((t, i) => (`  Warning ${i}:`, t.id, t.textContent, void 0));
+  ('Validation tooltips found:', validationTooltips.length, void 0);
+  validationTooltips.forEach((t, i) => (`  Validation ${i}:`, t.id, t.textContent, void 0));
   
   // Debug logging
-  console.log('Tooltip cache initialized:', {
+  ('Tooltip cache initialized:', {
     warning: tooltipCache.campaignId.warning,
     validation: tooltipCache.campaignId.validation
-  });
+  }, void 0);
 }
 
 // Optimized tooltip management
@@ -1377,7 +1377,7 @@ function clearAllTooltips() {
     elements.linkInput.title = '';
   }
   
-  console.log('All tooltips cleared');
+  ('All tooltips cleared', void 0);
 }
 
 // Performance: Debounced input handlers
@@ -1405,12 +1405,12 @@ if (elements.campaignIdInput) {
   elements.campaignIdInput.addEventListener('input', (event) => {
     updateEnvironmentToggle();
     // DEBUG: Log input event
-    console.log('\ud83d\udd25 CAMPAIGN ID INPUT EVENT:', {
+    ('\ud83d\udd25 CAMPAIGN ID INPUT EVENT:', {
       value: elements.campaignIdInput.value,
       isInitializing: isPageInitializing,
       isTrusted: event.isTrusted,
       eventConstructor: event.constructor.name
-    });
+    }, void 0);
     
     // Skip tooltip validation during page initialization
     if (isPageInitializing) return;
@@ -1423,13 +1423,13 @@ if (elements.campaignIdInput) {
     const isEmpty = campaignId.trim() === '';
 
     // Debug logging
-    console.log('Input changed:', campaignId);
-    console.log('Has space:', hasSpace);
-    console.log('Is empty:', isEmpty);
+    ('Input changed:', campaignId, void 0);
+    ('Has space:', hasSpace, void 0);
+    ('Is empty:', isEmpty, void 0);
 
     // Format validation
     const formatValidation = validateCampaignIdFormat(campaignId);
-    console.log('Format validation result:', formatValidation);
+    ('Format validation result:', formatValidation, void 0);
     
     // Enhanced character count
     const cc = document.getElementById('campaignIdCharCount');
@@ -1440,7 +1440,7 @@ if (elements.campaignIdInput) {
     }
     
     if (hasSpace || isEmpty || (campaignId && !formatValidation.valid)) {
-      console.log('Setting error state');
+      ('Setting error state', void 0);
       elements.campaignIdInput.classList.add('error');
       // Show format error if applicable
       if (campaignId && !formatValidation.valid && formatValidation.error) {
@@ -1472,7 +1472,7 @@ if (elements.campaignIdInput) {
         });
       }
     } else {
-      console.log('Removing error state - input is valid');
+      ('Removing error state - input is valid', void 0);
       elements.campaignIdInput.classList.remove('error');
       elements.campaignIdInput.title = '';
       
@@ -1490,8 +1490,8 @@ if (elements.campaignIdInput) {
 
       // Show warning if date is today, past date, OR future date - BUT NOT if there's a validation error
       if (campaignId && formatValidation.valid && !hasSpace && !isEmpty && (formatValidation.isToday || formatValidation.isPastDate || formatValidation.isFutureDate)) {
-        console.log('Showing warning for date:', formatValidation.isToday ? 'today' : formatValidation.isPastDate ? 'past date' : 'future date');
-        console.log('Field container classes before adding:', fieldContainer ? fieldContainer.className : 'null');
+        ('Showing warning for date:', formatValidation.isToday ? 'today' : formatValidation.isPastDate ? 'past date' : 'future date', void 0);
+        ('Field container classes before adding:', fieldContainer ? fieldContainer.className : 'null', void 0);
         
         // Build warning message
         let warningMessage;
@@ -1527,17 +1527,17 @@ if (elements.campaignIdInput) {
           } else {
             fieldContainer.classList.remove('future-date-warning');
           }
-          console.log('Field container classes after adding:', fieldContainer.className);
+          ('Field container classes after adding:', fieldContainer.className, void 0);
         }
         if (inputWrapper) {
           inputWrapper.classList.add('past-date-warning');
         }
         // Manage tooltip collision - this will handle mismatch if present
-        console.log('Calling manageTooltipCollision with fieldContainer:', fieldContainer);
+        ('Calling manageTooltipCollision with fieldContainer:', fieldContainer, void 0);
         manageTooltipCollision(fieldContainer);
-        console.log('manageTooltipCollision completed');
+        ('manageTooltipCollision completed', void 0);
       } else {
-        console.log('Removing warning indicator');
+        ('Removing warning indicator', void 0);
         // Remove visual warning indicator if not today, past, or future date
         inputWrapper = document.querySelector('.input-wrapper.campaign-id-field');
         if (fieldContainer) {
@@ -1556,15 +1556,15 @@ if (elements.campaignIdInput) {
       // Perform mismatch validation if both campaign ID and link have values AND no validation error
       const linkValue = elements.linkInput ? elements.linkInput.value.trim() : '';
       if (campaignId && linkValue && !hasSpace && !isEmpty && formatValidation.valid) {
-        console.log('Performing mismatch validation...');
+        ('Performing mismatch validation...', void 0);
         const mismatchResult = validateCampaignLinkMismatch(campaignId, linkValue);
-        console.log('Mismatch result:', mismatchResult);
+        ('Mismatch result:', mismatchResult, void 0);
         
         const campaignFieldContainer = document.querySelector('.field.campaign-id-field');
         const linkFieldContainer = document.querySelector('.field.link-field');
         
         if (mismatchResult.hasMismatch) {
-          console.log('MISMATCH DETECTED - showing mismatch tooltips');
+          ('MISMATCH DETECTED - showing mismatch tooltips', void 0);
             
           // Add mismatch error class to both fields
           if (campaignFieldContainer) {
@@ -1588,7 +1588,7 @@ if (elements.campaignIdInput) {
             }
           }
         } else {
-          console.log('NO MISMATCH - clearing mismatch tooltips');
+          ('NO MISMATCH - clearing mismatch tooltips', void 0);
             
           // Remove mismatch error class and tooltips
           if (campaignFieldContainer) {
@@ -1676,8 +1676,8 @@ function validateCampaignIdFormat(campaignId) {
   const formatRegex = /^\d{8}[A-Z]?_[A-Za-z0-9\-_]+_\d{3,4}$/;
   
   // Debug regex
-  console.log('Testing regex for:', campaignId);
-  console.log('Regex test result:', formatRegex.test(campaignId));
+  ('Testing regex for:', campaignId, void 0);
+  ('Regex test result:', formatRegex.test(campaignId), void 0);
   
   if (!formatRegex.test(campaignId)) {
     return { 
@@ -1714,12 +1714,12 @@ function validateCampaignIdFormat(campaignId) {
   const isFutureDate = campaignDateNormalized > todayNormalized;
   
   // Debug logging
-  console.log('Campaign ID:', campaignId);
-  console.log('Campaign Date:', campaignDateNormalized.toDateString());
-  console.log('Today:', todayNormalized.toDateString());
-  console.log('Is Past Date:', isPastDate);
-  console.log('Is Today:', isToday);
-  console.log('Is Future Date:', isFutureDate);
+  ('Campaign ID:', campaignId, void 0);
+  ('Campaign Date:', campaignDateNormalized.toDateString(), void 0);
+  ('Today:', todayNormalized.toDateString(), void 0);
+  ('Is Past Date:', isPastDate, void 0);
+  ('Is Today:', isToday, void 0);
+  ('Is Future Date:', isFutureDate, void 0);
   
   // Past dates and future dates both show warnings
   if (isPastDate) {
@@ -1923,11 +1923,11 @@ if (elements.linkInput) {
             validationTooltip.style.opacity = '1';
             
             // DEBUG: Log link validation tooltip
-            console.log('\ud83d\udd17 LINK VALIDATION TOOLTIP SHOWN:', {
+            ('\ud83d\udd17 LINK VALIDATION TOOLTIP SHOWN:', {
               error: linkValidation.error,
               isPageInitializing,
               bodyClasses: document.body.className
-            });
+            }, void 0);
           }
         }
       }
@@ -1936,14 +1936,14 @@ if (elements.linkInput) {
       const campaignId = elements.campaignIdInput ? elements.campaignIdInput.value.trim() : '';
       const campaignValidation = campaignId ? validateCampaignIdFormat(campaignId) : null;
       if (campaignId && linkValue && campaignValidation && campaignValidation.valid) {
-        console.log('Performing mismatch validation from link input...');
+        ('Performing mismatch validation from link input...', void 0);
         const mismatchResult = validateCampaignLinkMismatch(campaignId, linkValue);
-        console.log('Mismatch result:', mismatchResult);
+        ('Mismatch result:', mismatchResult, void 0);
         
         const campaignFieldContainer = document.querySelector('.field.campaign-id-field');
         
         if (mismatchResult.hasMismatch) {
-          console.log('MISMATCH DETECTED - showing mismatch tooltips');
+          ('MISMATCH DETECTED - showing mismatch tooltips', void 0);
           
           // Add mismatch error class to both fields
           if (campaignFieldContainer) {
@@ -1972,7 +1972,7 @@ if (elements.linkInput) {
             manageTooltipCollision(campaignFieldContainer);
           }
         } else {
-          console.log('NO MISMATCH - clearing mismatch tooltips');
+          ('NO MISMATCH - clearing mismatch tooltips', void 0);
           
           // Remove mismatch error class and tooltips
           if (campaignFieldContainer) {
@@ -2103,7 +2103,7 @@ function saveState() {
 }
 
 function loadState() {
-  console.log('\ud83d\udd04 LOAD STATE START:', { isPageInitializing });
+  ('\ud83d\udd04 LOAD STATE START:', { isPageInitializing }, void 0);
   
   const saved = localStorage.getItem('config_state');
   if (!saved) { 
@@ -2116,12 +2116,12 @@ function loadState() {
     
     // Always load form values even without xmlDoc
     if (elements.campaignIdInput) {
-      console.log('\ud83d\udcdd SETTING FORM VALUES:', {
+      ('\ud83d\udcdd SETTING FORM VALUES:', {
         campaignId: state.campaignId,
         subject: state.subject,
         link: state.link,
         isPageInitializing
-      });
+      }, void 0);
       
       elements.campaignIdInput.value = state.campaignId || '';
       elements.subjectInput.value = state.subject || '';
@@ -2161,7 +2161,7 @@ function loadState() {
       }
     }
   } catch (e) {
-    console.log('Error loading state', 'error');
+    ('Error loading state', 'error', void 0);
   } finally {
     if (typeof decorateButtons === 'function') decorateButtons(); // ensure emojis added
   }
@@ -2196,13 +2196,13 @@ let campaignIdTooltipTimeout = null;
 
 function showCampaignIdTooltip(message, type = 'validation', options = {}) {
   // DEBUG: Log exactly when this is called
-  console.log('\ud83d\udea8 TOOLTIP SHOW CALLED:', {
+  ('\ud83d\udea8 TOOLTIP SHOW CALLED:', {
     message,
     type,
     isPageInitializing,
     bodyClasses: document.body.className,
     stackTrace: new Error().stack
-  });
+  }, void 0);
   
   // Use the warning tooltip for all campaign ID messages to combine them
   const tooltip = document.getElementById('campaignIdWarningTooltip');
@@ -2269,12 +2269,12 @@ function showCampaignIdTooltip(message, type = 'validation', options = {}) {
   tooltip.style.opacity = '1';
   
   // DEBUG: Log when tooltip is actually shown
-  console.log('\u2705 TOOLTIP ACTUALLY SHOWN:', {
+  ('\u2705 TOOLTIP ACTUALLY SHOWN:', {
     message,
     opacity: tooltip.style.opacity,
     display: window.getComputedStyle(tooltip).display,
     bodyClasses: document.body.className
-  });
+  }, void 0);
   
   // Auto-hide after specified duration
   if (options.autoHide && options.autoHide > 0) {
@@ -2361,15 +2361,15 @@ function showMismatch(expected, found) {
 
 // === Tooltip Collision Management ===
 function manageTooltipCollision(fieldContainer) {
-  console.log('=== manageTooltipCollision START ===');
+  ('=== manageTooltipCollision START ===', void 0);
   if (!fieldContainer) {
-    console.log('No fieldContainer, returning');
+    ('No fieldContainer, returning', void 0);
     return;
   }
   
   // For campaign ID field, handle collision between warning and mismatch tooltips
   if (fieldContainer.classList.contains('campaign-id-field')) {
-    console.log('Managing tooltip collision for campaign ID field');
+    ('Managing tooltip collision for campaign ID field', void 0);
     
     const warningTooltip = document.getElementById('campaignIdWarningTooltip');
     const mismatchTooltip = document.getElementById('campaignIdMismatchTooltip');
@@ -2381,7 +2381,7 @@ function manageTooltipCollision(fieldContainer) {
                       fieldContainer.classList.contains('validation-error');
     const hasMismatch = fieldContainer.classList.contains('mismatch-error');
     
-    console.log('Tooltip states:', { hasWarning, hasMismatch });
+    ('Tooltip states:', { hasWarning, hasMismatch }, void 0);
     
     // Position tooltips to avoid collision
     if (hasMismatch && hasWarning) {
@@ -2423,7 +2423,7 @@ function manageTooltipCollision(fieldContainer) {
     }
   }
   
-  console.log('=== manageTooltipCollision END ===');
+  ('=== manageTooltipCollision END ===', void 0);
 }
 
 // === Apply Update combo button ===
@@ -2433,13 +2433,13 @@ function manageTooltipCollision(fieldContainer) {
     applyUpdateBtn.addEventListener('click', async () => {
       // Check if button is disabled
       if (applyUpdateBtn.disabled) {
-        console.log('Apply button is disabled, ignoring click');
+        ('Apply button is disabled, ignoring click', void 0);
         return;
       }
       
       // Check if XML is loaded before applying updates
       if (!xmlDoc) {
-        console.log("No XML loaded");
+        ("No XML loaded", void 0);
         return;
       }
       
@@ -2616,7 +2616,7 @@ function manageTooltipCollision(fieldContainer) {
           updateSaveAndApplyButtons();
           
           // Show notification after XML is updated
-          console.log(`Successfully applied ${updateCount} update(s)!`);
+          (`Successfully applied ${updateCount} update(s)!`, void 0);
           setCampaignIndicatorState('applied');
           
           // Update character counts after applying changes
@@ -2642,10 +2642,10 @@ function manageTooltipCollision(fieldContainer) {
             setFileStatus('error', 'Save failed');
           }
         } else {
-          console.log('No valid updates to apply');
+          ('No valid updates to apply', void 0);
         }
       } else {
-        console.log('No changes detected');
+        ('No changes detected', void 0);
       }
       
       // Re-enable button and restore original content only if there was an error
@@ -2702,12 +2702,12 @@ function setCampaignIndicatorState(state) {
 // Auto save function with toast notification
 async function autoSave() {
   if (!window.fileHandle) {
-    console.log('No file handle, skipping auto save');
+    ('No file handle, skipping auto save', void 0);
     return;
   }
   
   try {
-    console.log('Auto saving...');
+    ('Auto saving...', void 0);
     await performSave();
     
     setCampaignIndicatorState('saved');
@@ -2895,18 +2895,18 @@ window.addEventListener('load', () => {
     isPageInitializing = false;
     
     // DO NOT ENABLE TOOLTIPS HERE - only enable when XML file is opened
-    console.log('\ud83c\udfc1 WINDOW LOAD COMPLETE - TOOLTIPS STILL DISABLED');
+    ('\ud83c\udfc1 WINDOW LOAD COMPLETE - TOOLTIPS STILL DISABLED', void 0);
   }, 150);
 
   // Add save button event listener after DOM is loaded
   const saveFileBtn = document.getElementById('saveFileBtn');
   if (saveFileBtn) {
     saveFileBtn.addEventListener('click', async () => {
-      console.log('=== SAVE BUTTON CLICKED ===');
+      ('=== SAVE BUTTON CLICKED ===', void 0);
       
       // Check if button is disabled
       if (saveFileBtn.disabled) {
-        console.log('Save button is disabled, ignoring click');
+        ('Save button is disabled, ignoring click', void 0);
         return;
       }
       
@@ -2962,7 +2962,7 @@ window.addEventListener('load', () => {
 
 // Clear content section when no folder/file is active
 function clearContentWhenNoFolder() {
-  console.log('\ud83d\udcc1 CLEAR CONTENT - DISABLING TOOLTIPS');
+  ('\ud83d\udcc1 CLEAR CONTENT - DISABLING TOOLTIPS', void 0);
   setTooltipsEnabled(false);
   // Clear all tooltip states/classes first to avoid stale visible bars.
   clearAllTooltips();
@@ -3162,13 +3162,13 @@ async function openFolder() {
       updateBreadcrumb(dirHandle.name);
       if (elements.fileMetadata) elements.fileMetadata.textContent = 'Select an XML file';
       await loadFileTree(dirHandle);
-      console.log(`Folder "${dirHandle.name}" opened successfully`);
+      (`Folder "${dirHandle.name}" opened successfully`, void 0);
     } else {
-      console.log('File System Access API not supported in this browser');
+      ('File System Access API not supported in this browser', void 0);
     }
   } catch (error) {
     if (error.name !== 'AbortError') {
-      console.log('Failed to open folder');
+      ('Failed to open folder', void 0);
     }
   } finally {
     setButtonState(false);
@@ -3181,9 +3181,9 @@ async function refreshFileTree() {
     // Keep refresh behavior clean: do not leave stale tooltip states visible.
     clearAllTooltips();
     await loadFileTree(currentDirHandle);
-    console.log('File tree refreshed');
+    ('File tree refreshed', void 0);
   } else {
-    console.log('No folder opened');
+    ('No folder opened', void 0);
     // Clear content when refreshing with no folder
     clearContentWhenNoFolder();
   }
@@ -3222,7 +3222,7 @@ async function loadFileTree(dirHandle) {
       
       // Update breadcrumb to show 'X' instead of the actual folder name
       updateBreadcrumb('X');
-      console.log(`Showing contents of folder "X"`);
+      (`Showing contents of folder "X"`, void 0);
     } else {
       // Normal folder - show folder and its contents
       const treeContainer = document.createElement('ul');
@@ -3253,7 +3253,7 @@ async function loadFileTree(dirHandle) {
     }
 
   } catch (error) {
-    console.log('Failed to load file tree');
+    ('Failed to load file tree', void 0);
   }
 } // Added closing brace here
 
@@ -3348,7 +3348,7 @@ function toggleFolder(folderItem) {
 async function selectFile(fileItem, fileHandle) {
   if (fileItem !== selectedFileItem && !confirmDiscardChanges()) return;
 
-  console.log('\ud83d\udcc2 SELECT FILE CALLED - ENABLING TOOLTIPS');
+  ('\ud83d\udcc2 SELECT FILE CALLED - ENABLING TOOLTIPS', void 0);
 
   setFileStatus('loading', 'Loading');
 
@@ -3403,7 +3403,7 @@ async function selectFile(fileItem, fileHandle) {
 
   } catch (error) {
     console.error('Error loading file:', error);
-    console.log('Failed to load file: ' + error.message);
+    ('Failed to load file: ' + error.message, void 0);
     setFileStatus('error', 'Load failed');
   }
 }
@@ -3422,8 +3422,8 @@ function validateFormFields() {
     return;
   }
   
-  console.log('=== validateFormFields START ===');
-  console.log('Validating:', { campaignId, subject, link });
+  ('=== validateFormFields START ===', void 0);
+  ('Validating:', { campaignId, subject, link }, void 0);
   
   // Validate Campaign ID
   let formatValidation = null;
@@ -3569,7 +3569,7 @@ function validateFormFields() {
     }
   }
   
-  console.log('=== validateFormFields END ===');
+  ('=== validateFormFields END ===', void 0);
   
   // Update button states after validation
   updateSaveAndApplyButtons();
@@ -3596,7 +3596,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.remove('initializing');
   isPageInitializing = false;
   
-  console.log('\ud83c\udfc1 PAGE INITIALIZATION COMPLETE - TOOLTIPS REMAIN DISABLED');
+  ('\ud83c\udfc1 PAGE INITIALIZATION COMPLETE - TOOLTIPS REMAIN DISABLED', void 0);
   
   if (typeof decorateButtons === 'function') decorateButtons();
 });

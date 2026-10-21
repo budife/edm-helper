@@ -1,0 +1,12 @@
+{
+  "name": "edm-helper",
+  "version": "6.16.46",
+  "private": true,
+  "description": "Budd Email Tools & Automation (BETA) - internal static web toolkit for email campaign work.",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "serve": "python3 server.py"
+  },
+  "license": "UNLICENSED"
+}

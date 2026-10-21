@@ -21,6 +21,12 @@ Use the sidebar to open a tool, or start with one of the quick access links belo
 
 ## Recent Updates
 
+### 21 October 2026
+- **Core v6.16.47** - Mirrored third-party assets locally (no more cdnjs CDN), removed debug console logging, and added Node test CI with a `package.json` test script.
+- **DOCX to HTML v1.3.11** - Loads Mammoth, JSZip, and CodeMirror from local assets instead of a CDN.
+- **Layout Checker v2.5.5** - Loads html2canvas and icons from local assets instead of a CDN.
+- **Layout Slicer v0.5.6** - Loads pdf.js and its worker from local assets instead of a CDN.
+
 ### 18 September 2026
 - **Core v6.16.41** - Limited the Recent Updates date picker area to a compact ten-item viewport with scrolling for older dates.
 - **Bookmarklet v1.3.3** - Retired Typo Scanner from the UI and improved the localhost URL converter card.

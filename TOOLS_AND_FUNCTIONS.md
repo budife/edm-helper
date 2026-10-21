@@ -40,7 +40,26 @@ eDM Helper is a collection of useful tools for email marketing and everyday prod
   - SMTP settings
   - Custom parameters
 
-### 4. **WFH Tracker**
+### 4. **Database Checker**
+- **File:** `database-checker.html`
+- **Icon:** 🗄️
+- **Fungsi:** Validasi package database secara lokal dan uji URL layout publik secara opsional
+- **Fitur:**
+  - Validasi package database lokal
+  - Uji URL layout publik (opsional, via CORS proxy)
+  - Status loading / empty / error yang jelas
+
+### 5. **Database Generator**
+- **File:** `database-generator.html`
+- **Icon:** 🧬
+- **Fungsi:** Generate file output database campaign dari input customer dan KRHRED secara lokal
+- **Fitur:**
+  - Output empat file campaign
+  - Bulk paste customer + KRHRED
+  - Custom field mapping
+  - Processing 100% lokal di browser
+
+### 6. **WFH Tracker**
 - **File:** `wfh-tracker.html`
 - **Icon:** 📅
 - **Fungsi:** Track dan manage work from home days
@@ -50,7 +69,7 @@ eDM Helper is a collection of useful tools for email marketing and everyday prod
   - Summary reports
   - Export timesheet
 
-### 5. **Layout Checker**
+### 7. **Layout Checker**
 - **File:** `layout-checker.html`
 - **Icon:** 📏
 - **Fungsi:** Cek kompatibilitas layout email
@@ -58,7 +77,45 @@ eDM Helper is a collection of useful tools for email marketing and everyday prod
   - Cross-email client testing
   - Device compatibility check
   - Responsive design testing
-  - Screenshot comparison
+  - Screenshot comparison (html2canvas)
+
+### 8. **Layout Slicer**
+- **File:** `layout-slicer.html`
+- **Icon:** ✂️
+- **Fungsi:** Copy folder campaign dan slice layout PDF/gambar menjadi aset gambar berurutan
+- **Fitur:**
+  - Slice PDF (pdf.js) dan gambar
+  - Drag line untuk menentukan potongan
+  - Export via File System Access API
+  - Template-aware campaign renaming
+
+### 9. **DOCX to HTML**
+- **File:** `doc-to-html.html`
+- **Icon:** 📄
+- **Fungsi:** Convert file DOCX menjadi HTML siap upload langsung di browser
+- **Fitur:**
+  - Convert DOCX ke HTML (Mammoth)
+  - Editor CodeMirror
+  - Zip hasil (JSZip)
+  - 100% client-side
+
+### 10. **TNC Uploader**
+- **File:** `tnc-uploader.html`
+- **Icon:** 📎
+- **Fungsi:** Rename, queue, simpan, dan generate public link untuk PDF terms & conditions secara lokal
+- **Fitur:**
+  - Rename + queue PDF
+  - Generate public link
+  - Tidak upload PDF ke server
+
+### 11. **Text Correction**
+- **File:** `text-correction.html`
+- **Icon:** 🔤
+- **Fungsi:** Convert teks yang di-paste menjadi plain text dan terapkan transformasi teks umum secara lokal
+- **Fitur:**
+  - Strip formatting
+  - Transformasi teks umum
+  - Processing lokal
 
 ---
 
@@ -83,25 +140,20 @@ eDM Helper is a collection of useful tools for email marketing and everyday prod
 
 ## 📁 Struktur File
 
-```
-Beta/
-├── index.html                 # Homepage
-├── bookmarklet.html          # Bookmarklet tool
-├── campaign-counter.html     # Campaign counter
-├── config.html               # eDM configuration
-├── wfh-tracker.html          # WFH tracker
-├── layout-checker.html       # Layout tester
-├── css/                      # Stylesheets
-│   ├── base.css             # Base styles
-│   ├── layout.css           # Layout components
-│   ├── theme.css            # Color scheme
-│   ├── pages-index.css      # Homepage styles
-│   └── components/          # Component styles
-├── js/                       # JavaScript files
-│   ├── nav.js              # Navigation
-│   ├── pages-index.js      # Homepage logic
-│   └── [tool-specific].js  # Individual tool scripts
-└── example of database/      # Sample database files
+```text
+eDM-Helper/
+├── index.html                 # App shell (sidebar + route container)
+├── 404.html                   # GitHub Pages SPA fallback
+├── content/                  # Markdown content rendered per route
+├── docs/                     # Documentation content
+├── css/                      # Shared tokens + per-tool styles
+├── js/                       # App shell, per-tool scripts, utilities
+├── tools/                    # Standalone tool pages (embedded by routes)
+├── vendor/                   # Locally mirrored third-party assets
+├── scripts/                  # Maintenance/release helpers
+├── tests/                    # Node test suite
+├── server.py                 # Local dev server (python server.py)
+└── package.json              # Test script + CI config
 ```
 
 ---

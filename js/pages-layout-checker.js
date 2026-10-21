@@ -348,7 +348,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
     if (html2canvasLoadPromise) return html2canvasLoadPromise;
     html2canvasLoadPromise = new Promise((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      script.src = '../vendor/html2canvas/1.4.1/html2canvas.min.js';
       script.async = true;
       script.onload = () => resolve(window.html2canvas);
       script.onerror = () => reject(new Error('Unable to load screenshot library'));
@@ -656,7 +656,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
   stopBtn.addEventListener('click', () => {
     if (abortController) {
       abortController.abort();
-      console.log('Operation stopped');
+      ('Operation stopped', void 0);
       hideProgress();
       hideLoadingOverlay();
       hideErrorOverlay();
@@ -846,8 +846,8 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
 
   function renderLayoutWithKrhredValues() {
     const content = htmlInput.value;
-    console.log('Editor content length:', content.length);
-    console.log('Editor content preview:', content.substring(0, 200));
+    ('Editor content length:', content.length, void 0);
+    ('Editor content preview:', content.substring(0, 200), void 0);
     
     const { values, hasValue } = collectKrhredValues();
     const shouldHighlight = Boolean(highlightKrhredToggle && highlightKrhredToggle.checked);
@@ -857,16 +857,16 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
       shouldHighlight
     );
     
-    console.log('Has valid KRHRED:', hasValue);
+    ('Has valid KRHRED:', hasValue, void 0);
     
     if (!hasValue) {
-      console.log('No KRHRED values to apply. Please fill in KRHRED values first.');
+      ('No KRHRED values to apply. Please fill in KRHRED values first.', void 0);
       return false;
     }
     
     // Fix image URLs to absolute URLs if original URL is provided
     const originalUrlValue = document.getElementById('originalUrlInput').value.trim();
-    console.log('Original URL:', originalUrlValue);
+    ('Original URL:', originalUrlValue, void 0);
     
     // Convert relative image URLs to absolute URLs
     let processedContent = processedValues;
@@ -884,7 +884,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
           }
           return `src="${baseUrlString}${relativePath}"`;
         });
-        console.log('Processed content with absolute URLs');
+        ('Processed content with absolute URLs', void 0);
       } catch (e) {
         console.error('Error processing URLs:', e);
         processedContent = processedValues; // Fallback to original content
@@ -894,7 +894,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
     renderPreview(processedContent, shouldHighlight ? 'Preview ready - KRHRED highlighted' : 'Preview ready', originalUrlValue);
     setLayoutView('preview');
 
-    console.log('Layout checked successfully! Preview updated.');
+    ('Layout checked successfully! Preview updated.', void 0);
     return true;
   }
 
@@ -937,7 +937,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
   manualPasteBtn.addEventListener('click', () => {
     const url = originalUrlInput.value.trim();
     if (!url) {
-      console.log('Please enter a URL first.');
+      ('Please enter a URL first.', void 0);
       return;
     }
     
@@ -948,7 +948,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
     setTimeout(() => {
       window.open(url, '_blank');
       localStorage.setItem('layoutCheckerURL', url);
-      console.log('Page opened in new tab. Please copy source code (Ctrl+U or Right-click → View Page Source) and paste it here.');
+      ('Page opened in new tab. Please copy source code (Ctrl+U or Right-click → View Page Source) and paste it here.', void 0);
       setTimeout(() => {
         hideProgress();
       }, 1000);
@@ -959,7 +959,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
   textModeBtn.addEventListener('click', async () => {
     const url = originalUrlInput.value.trim();
     if (!url) {
-      console.log('Please enter a URL first.');
+      ('Please enter a URL first.', void 0);
       return;
     }
     
@@ -986,16 +986,16 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
       
       if (content && content.includes('<html')) {
         htmlInput.value = content;
-        console.log('Content loaded successfully!');
+        ('Content loaded successfully!', void 0);
         generateKrhredColumns(content);
       } else {
-        console.log('Unable to fetch content as plain text. Please use Manual Paste option.');
+        ('Unable to fetch content as plain text. Please use Manual Paste option.', void 0);
       }
     } catch (error) {
       if (error.name === 'AbortError') {
-        console.log('Fetch cancelled');
+        ('Fetch cancelled', void 0);
       } else {
-        console.log('Failed to fetch content. Please use Manual Paste option.');
+        ('Failed to fetch content. Please use Manual Paste option.', void 0);
       }
     } finally {
       hideProgress();
@@ -1015,9 +1015,9 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
   // Function to detect krhred_unit_xx in HTML and generate columns
   function generateKrhredColumns(htmlContent, showNotification = true) {
     // DEBUG: Log function start
-    console.log('=== generateKrhredColumns START ===');
-    console.log('HTML content length:', htmlContent.length);
-    console.log('HTML content preview:', htmlContent.substring(0, 200) + '...');
+    ('=== generateKrhredColumns START ===', void 0);
+    ('HTML content length:', htmlContent.length, void 0);
+    ('HTML content preview:', htmlContent.substring(0, 200) + '...', void 0);
     
     // Find all krhred_unit_xx patterns in HTML
     const regex = /<%\[KRHRED_Unit_(\d+)\]\|%>/g;
@@ -1032,8 +1032,8 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
     }
     
     // DEBUG: Log regex matches
-    console.log('Regex matches found:', matches);
-    console.log('Matches sorted:', matches.sort((a, b) => a - b));
+    ('Regex matches found:', matches, void 0);
+    ('Matches sorted:', matches.sort((a, b) => a - b), void 0);
     
     // Sort matches
     matches.sort((a, b) => a - b);
@@ -1041,12 +1041,12 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
     // Get input grid container
     const inputGrid = krhredUnitsContainer.querySelector('#inputGrid');
     if (!inputGrid) {
-      console.log('ERROR: inputGrid not found!');
+      ('ERROR: inputGrid not found!', void 0);
       return;
     }
     
     // DEBUG: Log grid container
-    console.log('Input grid container found:', inputGrid);
+    ('Input grid container found:', inputGrid, void 0);
     
     // Get existing krhred inputs (don't clear them)
     const currentInputs = krhredUnitsContainer.querySelectorAll('input[id^="krhred_unit_"]');
@@ -1055,14 +1055,14 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
     );
     
     // DEBUG: Log existing inputs
-    console.log('Existing inputs found:', existingNumbers);
-    console.log('Existing input elements:', currentInputs.length);
+    ('Existing inputs found:', existingNumbers, void 0);
+    ('Existing input elements:', currentInputs.length, void 0);
     
     // Remove units that are not in the HTML (including default units if not in HTML)
     currentInputs.forEach(input => {
       const unitNumber = parseInt(input.id.replace('krhred_unit_', ''), 10);
       if (!matches.includes(unitNumber)) {
-        console.log(`Removing unit ${unitNumber} - not in HTML`);
+        (`Removing unit ${unitNumber} - not in HTML`, void 0);
         input.parentElement.remove();
       }
     });
@@ -1071,7 +1071,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
     matches.forEach((unitNumber, index) => {
       if (!existingNumbers.includes(unitNumber)) {
         // DEBUG: Log each unit creation
-        console.log(`Creating unit ${unitNumber} at index ${index}`);
+        (`Creating unit ${unitNumber} at index ${index}`, void 0);
         
         // Calculate position for 4x2 grid (8 units per row)
         const rowPosition = Math.floor(index / 8); // Which row (0-indexed)
@@ -1080,7 +1080,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
         const gridRow = Math.floor(columnPosition / 2); // Which row in column (0-1)
         
         // DEBUG: Log positioning calculation
-        console.log(`Unit ${unitNumber}: rowPosition=${rowPosition}, columnPosition=${columnPosition}, gridColumn=${gridColumn}, gridRow=${gridRow}`);
+        (`Unit ${unitNumber}: rowPosition=${rowPosition}, columnPosition=${columnPosition}, gridColumn=${gridColumn}, gridRow=${gridRow}`, void 0);
         
         // Create new input
         const div = document.createElement('div');
@@ -1113,22 +1113,22 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
         input.addEventListener('input', () => {});
       } else {
         // DEBUG: Log skipped units
-        console.log(`Skipping unit ${unitNumber} - already exists`);
+        (`Skipping unit ${unitNumber} - already exists`, void 0);
       }
     });
     
     // DEBUG: Log final state
     const finalInputs = krhredUnitsContainer.querySelectorAll('input[id^="krhred_unit_"]');
-    console.log('Final input count:', finalInputs.length);
-    console.log('=== generateKrhredColumns END ===');
+    ('Final input count:', finalInputs.length, void 0);
+    ('=== generateKrhredColumns END ===', void 0);
     
     // Show combined toast notification for HTML fetch and KRHRED units found
     if (showNotification) {
       if (matches.length > 0) {
-        console.log(`Generated ${matches.length} krhred_unit columns:`, matches);
-        console.log(`HTML fetched! Found ${matches.length} KRHRED units: ${matches.join(', ')}`);
+        (`Generated ${matches.length} krhred_unit columns:`, matches, void 0);
+        (`HTML fetched! Found ${matches.length} KRHRED units: ${matches.join(', ')}`, void 0);
       } else {
-        console.log('HTML fetched! No KRHRED units found. Showing default layout.');
+        ('HTML fetched! No KRHRED units found. Showing default layout.', void 0);
       }
     }
   }
@@ -1137,7 +1137,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
   downloadBtn.addEventListener('click', async () => {
     const url = originalUrlInput.value.trim();
     if (!url) {
-      console.log('Please enter a URL first.');
+      ('Please enter a URL first.', void 0);
       return;
     }
 
@@ -1296,18 +1296,18 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
       } else {
         renderPreview('', 'No layout loaded');
       }
-      console.log('KRHRED preview reset to source HTML.');
+      ('KRHRED preview reset to source HTML.', void 0);
     });
   }
 
   applyKrhredBtn.addEventListener('click', () => {
-    console.log('Apply KRHRED button clicked');
+    ('Apply KRHRED button clicked', void 0);
     const krhredText = krhredInput.value.trim();
-    console.log('KRHRED text length:', krhredText.length);
-    console.log('KRHRED text preview:', krhredText.substring(0, 200));
+    ('KRHRED text length:', krhredText.length, void 0);
+    ('KRHRED text preview:', krhredText.substring(0, 200), void 0);
     
     if (!krhredText) {
-      console.log('No bulk KRHRED text. Applying manual KRHRED input fields.');
+      ('No bulk KRHRED text. Applying manual KRHRED input fields.', void 0);
       if (htmlInput.value.trim()) {
         renderLayoutWithKrhredValues();
       }
@@ -1317,7 +1317,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
     // Parse krhred values in new format: attr:KRHRED_Unit_XX : <next line value>
     const lines = krhredText.split('\n');
     const krhredValues = {};
-    console.log('Total lines:', lines.length);
+    ('Total lines:', lines.length, void 0);
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
@@ -1328,30 +1328,30 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
         const nextIsAttr = /^attr:\s*KRHRED_Unit_\d+\s*:?\s*$/i.test(nextLine);
         const value = nextIsAttr ? '' : nextLine;
         krhredValues[key] = value;
-        console.log(`Parsed: ${key} = ${value}`);
+        (`Parsed: ${key} = ${value}`, void 0);
         if (!nextIsAttr) {
           i++; // skip value line
         }
       }
     }
     
-    console.log('KRHRED values found:', krhredValues);
+    ('KRHRED values found:', krhredValues, void 0);
 
     // Apply values to corresponding input fields
     Object.keys(krhredValues).forEach(key => {
       const unitNumber = key.replace('KRHRED_Unit_', '');
       const inputField = ensureKrhredInput(unitNumber);
-      console.log(`Looking for input: krhred_unit_${unitNumber}`);
+      (`Looking for input: krhred_unit_${unitNumber}`, void 0);
       if (inputField) {
         inputField.value = krhredValues[key];
         inputField.dispatchEvent(new Event('input')); // color update
-        console.log(`Applied value to unit ${unitNumber}`);
+        (`Applied value to unit ${unitNumber}`, void 0);
       } else {
-        console.log(`Input field not found for unit ${unitNumber}`);
+        (`Input field not found for unit ${unitNumber}`, void 0);
       }
     });
     
-    console.log('KRHRED values applied successfully!');
+    ('KRHRED values applied successfully!', void 0);
 
     // Apply KRHRED replacements to subject field if present
     if (subjectInput && subjectOutput) {
@@ -1397,7 +1397,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
     if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
       e.preventDefault();
       performClearAll();
-      console.log('Data cleared. Refreshing page...');
+      ('Data cleared. Refreshing page...', void 0);
       setTimeout(() => {
         window.location.reload();
       }, 100);
@@ -1417,7 +1417,7 @@ const highlightKrhredToggle = document.getElementById('highlightKrhredToggle');
         downloadBtn.style.display = 'flex';
         manualPasteBtn.style.display = 'flex';
       }
-      console.log('Source code automatically pasted from previous page!');
+      ('Source code automatically pasted from previous page!', void 0);
     }
     localStorage.removeItem('layoutCheckerSource');
     localStorage.removeItem('layoutCheckerURL');

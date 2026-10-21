@@ -5,7 +5,7 @@
 // Page load initialization - No animations for better performance
 document.addEventListener('DOMContentLoaded', () => {
   // Tool items visible immediately - no fade-in animation
-  console.log('eDM Helper loaded - Performance mode enabled');
+  ('eDM Helper loaded - Performance mode enabled', void 0);
   
   // Direct navigation without ripple effects
   document.querySelectorAll('.tool-link').forEach(link => {

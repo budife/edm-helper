@@ -1,0 +1,25 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Syntax-check JavaScript
+        run: |
+          set -e
+          for f in $(find js -name '*.js' | sort); do
+            node --check "$f" && echo "ok: $f"
+          done
+
+      - name: Run test suite
+        run: npm test

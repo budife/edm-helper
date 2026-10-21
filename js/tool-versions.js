@@ -6,7 +6,7 @@
 const TOOL_VERSIONS = {
   core: {
     label: 'Core',
-    version: '6.16.46',
+    version: '6.16.47',
     status: 'stable'
   },
   home: {
@@ -42,17 +42,17 @@ const TOOL_VERSIONS = {
 
   'doc-to-html': {
     label: 'DOCX to HTML',
-    version: '1.3.10',
+    version: '1.3.11',
     status: 'stable'
   },
   'layout-checker': {
     label: 'Layout Checker',
-    version: '2.5.4',
+    version: '2.5.5',
     status: 'stable'
   },
   'layout-slicer': {
     label: 'Layout Slicer',
-    version: '0.5.5',
+    version: '0.5.6',
     status: 'stable'
   },
   'tnc-uploader': {

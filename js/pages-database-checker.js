@@ -122,7 +122,7 @@ class FileProcessor {
       
       // Log performance metrics
       const endTime = performance.now();
-      console.log(`File read performance: ${lines.length} lines in ${(endTime - startTime).toFixed(2)}ms`);
+      (`File read performance: ${lines.length} lines in ${(endTime - startTime).toFixed(2)}ms`, void 0);
     } finally { 
       reader.releaseLock(); 
     }
@@ -192,7 +192,7 @@ class VirtualScroller {
       if (this.items.length > 10000) {
         const scrollTime = performance.now() - scrollStart;
         if (scrollTime > 16) {
-          console.log(`\u26a0\ufe0f Slow scroll update: ${scrollTime.toFixed(2)}ms`);
+          (`\u26a0\ufe0f Slow scroll update: ${scrollTime.toFixed(2)}ms`, void 0);
         }
       }
     }, DEBOUNCE_DELAY);
@@ -381,7 +381,7 @@ class VirtualScroller {
     this.update();
     
     if (items.length > 1000) {
-      console.log(`\u23f1\ufe0f setItems completed in ${(performance.now() - setItemsStart).toFixed(2)}ms for ${items.length} items`);
+      (`\u23f1\ufe0f setItems completed in ${(performance.now() - setItemsStart).toFixed(2)}ms for ${items.length} items`, void 0);
     }
   }
   
@@ -459,7 +459,7 @@ class VirtualScroller {
     // Performance logging for large updates
     const itemsToRender = end - start;
     if (itemsToRender > 100) {
-      console.log(`\ud83d\udd0d VirtualScroller updating: ${itemsToRender} items (range: ${start}-${end})`);
+      (`\ud83d\udd0d VirtualScroller updating: ${itemsToRender} items (range: ${start}-${end})`, void 0);
     }
 
     // Use DocumentFragment for batch DOM operations
@@ -513,7 +513,7 @@ class VirtualScroller {
 
     // Performance logging
     if (itemsToRender > 100) {
-      console.log(`\u23f1\ufe0f VirtualScroller render: ${renderedCount} new, ${reusedCount} reused in ${(performance.now() - renderStart).toFixed(2)}ms`);
+      (`\u23f1\ufe0f VirtualScroller render: ${renderedCount} new, ${reusedCount} reused in ${(performance.now() - renderStart).toFixed(2)}ms`, void 0);
     }
 
     // Find elements to remove (from old visible set)
@@ -724,7 +724,7 @@ class DatabaseChecker {
       
       // Add performance indicator
       document.body.classList.add('performance-mode');
-      console.log('Performance mode enabled for low-end device');
+      ('Performance mode enabled for low-end device', void 0);
     }
   }
   
@@ -776,7 +776,7 @@ class DatabaseChecker {
         }
       };
     } catch (error) {
-      console.log('Web Worker not available, using main thread');
+      ('Web Worker not available, using main thread', void 0);
       this.worker = null;
     }
   }
@@ -2828,12 +2828,12 @@ class DatabaseChecker {
 
     // Use Web Worker for validation if available and dataset is large
     if (this.worker && totalLines > 50000) {
-      console.log('\ud83d\udd0d Using Web Worker for validation');
+      ('\ud83d\udd0d Using Web Worker for validation', void 0);
       await this.validateWithWorker(unitsSet, emptyDataUnits, 
                                    invalidFormatUnits, invalidEmailUnits, 
                                    longDataUnits, missingFieldUnits, unitDetails);
     } else {
-      console.log(`\ud83d\udd0d Using main thread for validation with chunk size: ${chunkSize}`);
+      (`\ud83d\udd0d Using main thread for validation with chunk size: ${chunkSize}`, void 0);
       
       for (let i=0;i<this.currentLines.length;i+=chunkSize){
         if (this._stopRequested) break;
@@ -2862,7 +2862,7 @@ class DatabaseChecker {
     
     // Performance logging
     const endTime = performance.now();
-    console.log(`Validation completed in ${(endTime - startTime).toFixed(2)}ms`);
+    (`Validation completed in ${(endTime - startTime).toFixed(2)}ms`, void 0);
 
     // Combine all errors
     const allErrorUnits = new Set([...emptyDataUnits, ...invalidFormatUnits, ...invalidEmailUnits, ...longDataUnits, ...missingFieldUnits]);
@@ -3211,7 +3211,7 @@ class DatabaseChecker {
     } catch(err){
       if (err.name === 'AbortError') {
         // User cancelled the dialog - don't show an error
-        console.log('Folder selection cancelled by user');
+        ('Folder selection cancelled by user', void 0);
       } else if (err.name === 'NotAllowedError') {
         alert('Permission denied. Please allow access to select a folder.');
       } else if (err.name === 'NotFoundError') {
@@ -3558,7 +3558,7 @@ class DatabaseChecker {
   async loadFile(fileHandle){
     try{
       const loadStart = performance.now();
-      console.log('\ud83d\udd0d File loading started');
+      ('\ud83d\udd0d File loading started', void 0);
       
       this.clearResults();
       this.showLoading(true);
@@ -3582,7 +3582,7 @@ class DatabaseChecker {
       // Load file with optimized streaming
       const readStart = performance.now();
       this.currentLines = await this.fp.readFile(file, (loaded,total)=>this.updatePercent(loaded,total));
-      console.log(`\u23f1\ufe0f File read completed in ${(performance.now() - readStart).toFixed(2)}ms: ${this.currentLines.length} lines`);
+      (`\u23f1\ufe0f File read completed in ${(performance.now() - readStart).toFixed(2)}ms: ${this.currentLines.length} lines`, void 0);
       
       // Load ALL lines by default, not just LINES_PER_PAGE
       this.processedLinesCount = this.currentLines.length;
@@ -3594,7 +3594,7 @@ class DatabaseChecker {
         // Show all lines at once
         this.vs.setItems(this.currentLines);
         
-        console.log(`\u23f1\ufe0f Initial render completed in ${(performance.now() - renderStart).toFixed(2)}ms`);
+        (`\u23f1\ufe0f Initial render completed in ${(performance.now() - renderStart).toFixed(2)}ms`, void 0);
         
         // Force the container to update its scrollable area
         setTimeout(() => {
@@ -3632,7 +3632,7 @@ class DatabaseChecker {
         this.checkBtn.disabled = false;
         document.getElementById('openRawDataBtn').disabled = false;
         
-        console.log(`\u23f1\ufe0f Total file load time: ${(performance.now() - loadStart).toFixed(2)}ms`);
+        (`\u23f1\ufe0f Total file load time: ${(performance.now() - loadStart).toFixed(2)}ms`, void 0);
       });
 
     } catch(err){
@@ -3730,7 +3730,7 @@ class DatabaseChecker {
       updateQuickStats();
     });
     
-    console.log(`\u2705 renderResultsAsync completed in ${(performance.now() - renderStart).toFixed(2)}ms`);
+    (`\u2705 renderResultsAsync completed in ${(performance.now() - renderStart).toFixed(2)}ms`, void 0);
   }
   
   buildSummaryHtml(unitsSet, errorUnits, totalDB, unitDetails) {
@@ -3997,7 +3997,7 @@ class DatabaseChecker {
       container.appendChild(categoryDiv);
     }
     
-    console.log(`\u2705 renderErrorsInBatches completed in ${(performance.now() - startTime).toFixed(2)}ms`);
+    (`\u2705 renderErrorsInBatches completed in ${(performance.now() - startTime).toFixed(2)}ms`, void 0);
   }
   
   getErrorSeverity(errorMsg) {
