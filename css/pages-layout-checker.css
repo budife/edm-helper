@@ -323,7 +323,7 @@
 /* Main Layout - Optimized Grid */
 .lc-main-layout {
   display: grid;
-  grid-template-columns: 380px 1fr;
+  grid-template-columns: 320px 1fr;
   gap: var(--lc-space-8);
   min-height: 650px;
   margin-top: var(--lc-space-8);
@@ -425,7 +425,7 @@
 .lc-input-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--lc-space-3);
+  gap: var(--lc-space-2);
 }
 
 .lc-input-col {
@@ -438,13 +438,13 @@
   border: 1px solid var(--gray-200);
   background: var(--surface);
   color: var(--text);
-  font-size: var(--font-size-sm, 0.875rem);
+  font-size: 0.8125rem;
   font-family: var(--font-family-base, system-ui, sans-serif);
   font-weight: var(--font-weight-medium, 500);
   transition: all var(--lc-transition-fast);
   text-align: center;
   border-radius: var(--lc-radius-none);
-  height: 44px;
+  height: 36px;
 }
 
 .lc-input-field:focus {
