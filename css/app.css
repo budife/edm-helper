@@ -841,7 +841,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 2;
-  margin: -26px -32px 0;
+  margin: -26px 0 0;
   padding: 14px 32px;
   background: #fff;
   border-bottom: 1px solid var(--app-border);
